@@ -4,7 +4,7 @@ let mainWindow
 
 function createWindow () {
   mainWindow = new BrowserWindow({ width: 800, height: 600 })
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('editor/index.html')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
