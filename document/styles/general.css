@@ -1,7 +1,13 @@
 /* **************** general css for BADAH document ***************** */
 
-* {
+.badah {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.badah.container {
+  position: absolute;
+  top: 6px;
+  right: 10px;
 }
