@@ -5,7 +5,8 @@
 
 /* --------------------------- constants --------------------------- */
 
-// const { location, localStorage } = window
+
+const { localStorage } = window
 const body = document.querySelector('body')
 
 /* ----------------------------- utils ----------------------------- */
@@ -45,10 +46,12 @@ const create = (
 }
 
 const append = (parent, nodes) => {
-  (Array.isArray(nodes) ? nodes : [nodes]).forEach(node => { parent.appendChild(node) })
+  (Array.isArray(nodes) ? nodes : [nodes]).forEach(
+    node => { parent.appendChild(node) }
+  )
 }
 
-/* ----------------------- DOM manipulation ----------------------- */
+/* ----------------------- DOM manipulation ------------------------ */
 
 // new features container creation
 const container = create('div', 'container')
