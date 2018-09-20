@@ -11,7 +11,7 @@ class Main extends Component {
 
   render() {
     return (
-      <Tabs defaultActiveKey="1" onChange={this.onSelectTab}>
+      <Tabs defaultActiveKey="sources" onChange={this.onSelectTab}>
         <TabPane tab="Sources" key="sources">Sources Content</TabPane>
         <TabPane tab="Display" key="display">Display Content</TabPane>
         <TabPane tab="General" key="general">General Content</TabPane>

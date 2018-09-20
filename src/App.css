@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 header {
@@ -11,6 +12,7 @@ header {
 
 main {
   flex: 20;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 footer {
