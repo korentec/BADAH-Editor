@@ -5,7 +5,10 @@
 /* ----------------------- DOM manipulation ------------------------ */
 
 // back button creation
-const backBtn = create('button',['button', 'actionButton'], null, 'Back')
+const backBtn = create('button',['button', 'actionButton'])
+backBtn.title = 'last link'
+const backIcon = create('i', ['fas', 'fa-backward'])
+append(backBtn, backIcon)
 
 // back button on click event
 backBtn.addEventListener('click', () => {

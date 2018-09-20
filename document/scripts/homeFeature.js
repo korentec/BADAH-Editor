@@ -5,7 +5,10 @@
 /* ----------------------- DOM manipulation ------------------------ */
 
 // home button creation
-const homeBtn = create('button', ['button', 'actionButton'], null, 'Home')
+const homeBtn = create('button', ['button', 'actionButton'])
+homeBtn.title = 'home page'
+const homeIcon = create('i', ['fas', 'fa-home'])
+append(homeBtn, homeIcon)
 
 // home button on click event
 homeBtn.addEventListener('click', () => {
