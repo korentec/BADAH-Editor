@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
+import Main from './components/Main'
+import Footer from './components/Footer'
 
 // accessing electron from the react app - example
 // const electron = window.require('electron')
@@ -9,8 +11,14 @@ import './App.css'
 class App extends Component {
   render() {
     return (
-      <div>
-        <h1>BADAH Editor</h1>  
+      <div className="wrapper">
+        <header></header>
+        <main>
+          <Main />
+        </main>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     )
   }
