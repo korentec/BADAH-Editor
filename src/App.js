@@ -9,6 +9,18 @@ import Footer from './components/Footer'
 // const ipcRenderer  = electron.ipcRenderer
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      folders: [],
+      features: [],
+      label: '',
+      classification: '',
+      theme: '',
+      logo: ''
+    }
+  }
+
   render() {
     return (
       <div className="wrapper">
