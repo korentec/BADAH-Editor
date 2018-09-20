@@ -20,4 +20,5 @@ backBtn.addEventListener('click', () => {
   // TBD: back feature on click code
 })
 
+// add new element to DOM
 append(container, backBtn)

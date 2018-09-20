@@ -20,4 +20,5 @@ homeBtn.addEventListener('click', () => {
   location.replace(location.pathname)
 })
 
+// add new element to DOM
 append(container, homeBtn)
