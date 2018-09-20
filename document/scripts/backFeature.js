@@ -5,7 +5,7 @@
 /* ----------------------- DOM manipulation ------------------------ */
 
 // back button creation
-const backBtn = create('button',['button', 'actionButton'])
+const backBtn = create('button',['button', 'action-btn'])
 backBtn.title = 'last link'
 const backIcon = create('i', ['fas', 'fa-backward'])
 append(backBtn, backIcon)

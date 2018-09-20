@@ -13,16 +13,66 @@
 }
 
 .badah.button {
+  cursor: pointer;
+  text-align: center;
+}
+
+.badah.action-btn {
   color: white;
   background-color: #5CC2E9;
   border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.badah.actionButton {
-  font-size: 18px;
+  font-size: 20px;
   margin: 0px 8px;
   padding: 10px 18px;
   width: 60px;
-  cursor: pointer;
+}
+
+.badah.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 500px;
+  height: 600px;
+  background-color: white;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
+.badah.modal-label {
   text-align: center;
+  margin-bottom: 10px;
+}
+
+.badah.modal-btn {
+  border: 1px solid black;
+  background-color: unset;
+  padding: 6px 8px;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.badah.bookmark-item {
+  position: relative;
+  margin: 10px 0px;
+}
+
+.badah.link {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-decoration: unset;
+  color: black;
+}
+
+.badah.delete-link {
+  position: absolute;
+  top: 2px;
+  right: 10px;
+  color: red;
+  cursor: pointer;
 }

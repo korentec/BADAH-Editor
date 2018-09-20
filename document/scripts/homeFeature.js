@@ -5,7 +5,7 @@
 /* ----------------------- DOM manipulation ------------------------ */
 
 // home button creation
-const homeBtn = create('button', ['button', 'actionButton'])
+const homeBtn = create('button', ['button', 'action-btn'])
 homeBtn.title = 'home page'
 const homeIcon = create('i', ['fas', 'fa-home'])
 append(homeBtn, homeIcon)
