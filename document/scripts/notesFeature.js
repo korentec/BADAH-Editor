@@ -5,12 +5,13 @@
 /* --------------------------- constants --------------------------- */
 
 const notesKey = `notes_${BADAH_VIEWER_ID}`
+let currentNoteLink = ''
 
 /* ----------------------------- utils ----------------------------- */
 
 // print note on textarea
 const renderNote = noteInput => {
-  const link = location.href
+  const link = currentNoteLink
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
   const note = notes.find(n => n.link === link)
   noteInput.value = (note && note.text) || ''
@@ -18,7 +19,8 @@ const renderNote = noteInput => {
 
 // save note to local storage
 const saveNote = noteInput => {
-  const link = location.href
+  const link = currentNoteLink
+  const label = getPageLabel()
   const text = noteInput.value
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
   const existNoteIndex = notes.findIndex(n => n.link === link)
@@ -30,11 +32,61 @@ const saveNote = noteInput => {
     }
   } else {
     if (text) {
-      notes.push({ link, text })
+      notes.push({ link, label, text })
     }
   }
 
   localStorage.setItem(notesKey, JSON.stringify(notes))
+}
+
+// open note modal
+const openNoteModal = link => {
+  closeAllModals()      
+  setStyle(noteModal, { display: 'block' })
+  currentNoteLink = link
+  renderNote(noteInput)
+}
+
+// open notes modal
+const openNotesModal = () => {
+  closeAllModals()
+  setStyle(notesModal, { display: 'block' })
+  renderNotesList(notesList)
+}
+
+// render notes list
+const renderNotesList = notesList => {
+  while (notesList.firstChild) {
+    notesList.removeChild(notesList.firstChild);
+  }
+
+  const notes = JSON.parse(localStorage.getItem(notesKey)) || []
+  if (!notes.length) {
+    const noItemsMsg = create('p', 'no-items', null, 'There no notes to show...')
+    append(notesList, noItemsMsg)
+  }
+
+  notes.forEach(note => {
+    const item = create('li', 'item')
+    const { label, link } = note
+    const noteLink = create('p', 'link', null, label || clearHref(link))
+    noteLink.addEventListener('click', () => {
+      openNoteModal(link)
+    })
+
+    const deleteItem = create('span', 'delete-item')
+    deleteItem.title = 'remove note'
+    const deleteItemIcon = create('i', ['fas', 'fa-times'])
+    append(deleteItem, deleteItemIcon)
+    deleteItem.addEventListener('click', () => {
+      const newNotes = notes.filter(n => n.link !== link)
+      localStorage.setItem(notesKey, JSON.stringify(newNotes))
+      renderNotesList(notesList)
+    })
+
+    append(item, [noteLink, deleteItem])
+    append(notesList, item)
+  })
 }
 
 /* ----------------------- DOM manipulation ------------------------ */
@@ -62,28 +114,50 @@ const saveNoteBtn = create('button', [ 'button', 'modal-btn'])
 saveNoteBtn.title = 'save changes'
 const saveNoteIcon = create('i', ['fas', 'fa-save'])
 append(saveNoteBtn, saveNoteIcon)
+const modalNotesBtn = create('button', [ 'button', 'modal-btn'])
+modalNotesBtn.title = 'notes list'
+const modalNotesIcon = create('i', ['fas', 'fa-book-open'])
+append(modalNotesBtn, modalNotesIcon)
 const noteInput = create('textarea', 'note-input')
 noteInput.placeholder = 'There no note for this page...'
-append(noteModal, [noteLabel, discardNoteBtn, saveNoteBtn, noteInput])
+append(noteModal, [noteLabel, discardNoteBtn, saveNoteBtn, modalNotesBtn, noteInput])
 
 // notes modal creation
 const notesModal = create('div', 'modal')
 const notesLabel = create('h2', 'modal-label', null, 'Notes')
-append(notesModal, [notesLabel])
+const clearNotesBtn = create('button', [ 'button', 'modal-btn'])
+clearNotesBtn.title = 'remove all notes'
+const clearNotesIcon = create('i', ['fas', 'fa-trash-alt'])
+append(clearNotesBtn, clearNotesIcon)
+const modalNoteBtn = create('button', [ 'button', 'modal-btn'])
+modalNoteBtn.title = 'add a note to this page'
+const modalNoteIcon = create('i', ['fas', 'fa-sticky-note'])
+append(modalNoteBtn, modalNoteIcon)
+const notesList = create('ol')
+append(notesModal, [notesLabel, clearNotesBtn, modalNoteBtn, notesList])
 
 // note this page on click event
 noteBtn.addEventListener('click', e => {
   e.stopPropagation()
-  closeAllModals()
-  setStyle(noteModal, { display: 'block' })
-  renderNote(noteInput)
+  openNoteModal(location.href)
+})
+
+// modal - note this page button on click event
+modalNoteBtn.addEventListener('click', e => {
+  e.stopPropagation()
+  openNoteModal(location.href)
 })
 
 // notes button on click event
 notesBtn.addEventListener('click', e => {
   e.stopPropagation()
-  closeAllModals()
-  setStyle(notesModal, { display: 'block' })
+  openNotesModal()
+})
+
+// modal - notes button on click event
+modalNotesBtn.addEventListener('click', e => {
+  e.stopPropagation()
+  openNotesModal()
 })
 
  // note discard button on click event
@@ -94,6 +168,20 @@ discardNoteBtn.addEventListener('click', () => {
 // note save button on click event
 saveNoteBtn.addEventListener('click', () => {
   saveNote(noteInput)
+})
+
+// clear notes button on click event
+clearNotesBtn.addEventListener('click', () => {
+  const notes = JSON.parse(localStorage.getItem(notesKey)) || []
+  if (!notes.length) {
+    return alert('There no bookmarks to remove...')
+  }
+
+  const isOK = confirm('Are you sure you want to remove all notes?')
+  if (isOK) {
+    window.localStorage.setItem(notesKey, JSON.stringify([]))
+    renderBookmarksList(notesList)
+  }
 })
 
 // close note modal on click outside

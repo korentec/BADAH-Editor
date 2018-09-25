@@ -55,7 +55,7 @@
   margin-right: 10px;
 }
 
-.badah.bookmark-item {
+.badah.item {
   position: relative;
   margin: 10px 0px;
 }
@@ -67,7 +67,7 @@
   cursor: pointer;
 }
 
-.badah.delete-link {
+.badah.delete-item {
   position: absolute;
   top: 2px;
   right: 10px;

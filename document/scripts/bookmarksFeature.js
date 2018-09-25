@@ -22,22 +22,23 @@ const renderBookmarksList = bookmarksList => {
 
   bookmarks.forEach(bookmark => {
     const item = create('li', 'bookmark-item')
-    const bookmarkLink = create('p', 'link', null, bookmark.label || clearHref(bookmark.link))
+    const { label, link } = bookmark
+    const bookmarkLink = create('p', 'link', null, label || clearHref(link))
     bookmarkLink.addEventListener('click', () => {
-      window.top.location.href = `${BADAH_VIEWER_PATH}?nav=${bookmark.link}&doc=${BADAH_DOCUMENT_ID}`
+      window.top.location.href = `${BADAH_VIEWER_PATH}?nav=${link}&doc=${BADAH_DOCUMENT_ID}`
     })
 
-    const deleteLink = create('span', 'delete-link')
-    deleteLink.title = 'remove bookmark'
-    const deleteLinkIcon = create('i', ['fas', 'fa-times'])
-    append(deleteLink, deleteLinkIcon)
-    deleteLink.addEventListener('click', () => {
-      const newBookmarks = bookmarks.filter(b => b.link !== bookmark.link)
+    const deleteItem = create('span', 'delete-item')
+    deleteItem.title = 'remove bookmark'
+    const deleteItemIcon = create('i', ['fas', 'fa-times'])
+    append(deleteItem, deleteItemIcon)
+    deleteItem.addEventListener('click', () => {
+      const newBookmarks = bookmarks.filter(b => b.link !== link)
       localStorage.setItem(bookmarksKey, JSON.stringify(newBookmarks))
       renderBookmarksList(bookmarksList)
     })
 
-    append(item, [bookmarkLink, deleteLink])
+    append(item, [bookmarkLink, deleteItem])
     append(bookmarksList, item)
   })
 }
@@ -114,7 +115,7 @@ bookmarksBtn.addEventListener('click', e => {
 clearBookmarksBtn.addEventListener('click', () => {
   const bookmarks = JSON.parse(localStorage.getItem(bookmarksKey)) || []
   if (!bookmarks.length) {
-    alert('There no bookmarks to remove...')
+    return alert('There no bookmarks to remove...')
   }
 
   const isOK = confirm('Are you sure you want to remove all bookmarks?')
