@@ -4,10 +4,11 @@
 
 /* --------------------------- constants --------------------------- */
 
-const bookmarksKey = `bookmarks_${location.pathname}`
+const bookmarksKey = `bookmarks_${BADAH_VIEWER_ID}`
 
 /* ----------------------------- utils ----------------------------- */
 
+// render bookmarks list
 const renderBookmarksList = bookmarksList => {
   while (bookmarksList.firstChild) {
     bookmarksList.removeChild(bookmarksList.firstChild);
@@ -21,8 +22,11 @@ const renderBookmarksList = bookmarksList => {
 
   bookmarks.forEach(bookmark => {
     const item = create('li', 'bookmark-item')
-    const bookmarkLink = create('a', 'link', null, bookmark.label || clearHref(bookmark.link))
-    bookmarkLink.href = bookmark.link.replace('#page/', '')
+    const bookmarkLink = create('p', 'link', null, bookmark.label || clearHref(bookmark.link))
+    bookmarkLink.addEventListener('click', () => {
+      window.top.location.href = `${BADAH_VIEWER_PATH}?nav=${bookmark.link}&doc=${BADAH_DOCUMENT_ID}`
+    })
+
     const deleteLink = create('span', 'delete-link')
     deleteLink.title = 'remove bookmark'
     const deleteLinkIcon = create('i', ['fas', 'fa-times'])
@@ -46,7 +50,7 @@ const bookmarkThisPage = () => {
   }
 
   const bookmarks = JSON.parse(localStorage.getItem(bookmarksKey)) || []
-  const link = location.hash
+  const link = location.href
   if (!bookmarks.some(b => b.link === link)) {
     const label = getPageLabel()
     bookmarks.push({ link, label })
@@ -120,7 +124,7 @@ clearBookmarksBtn.addEventListener('click', () => {
   }
 })
 
-// close modal on click outside
+// close bookmarks modal on click outside
 closeModalOnClickOutside(bookmarksModal)
 
 // add new elements to DOM
