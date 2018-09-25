@@ -14,12 +14,19 @@ const renderBookmarksList = bookmarksList => {
   }
 
   const bookmarks = JSON.parse(localStorage.getItem(bookmarksKey)) || []
+  if (!bookmarks.length) {
+    const noItemsMsg = create('p', 'no-items', null, 'There no bookmarks to show...')
+    append(bookmarksList, noItemsMsg)
+  }
+
   bookmarks.forEach(bookmark => {
     const item = create('li', 'bookmark-item')
     const bookmarkLink = create('a', 'link', null, bookmark.label || clearHref(bookmark.link))
     bookmarkLink.href = bookmark.link.replace('#page/', '')
-    const deleteLink = create('span', 'delete-link', null, 'X')
+    const deleteLink = create('span', 'delete-link')
     deleteLink.title = 'remove bookmark'
+    const deleteLinkIcon = create('i', ['fas', 'fa-times'])
+    append(deleteLink, deleteLinkIcon)
     deleteLink.addEventListener('click', () => {
       const newBookmarks = bookmarks.filter(b => b.link !== bookmark.link)
       localStorage.setItem(bookmarksKey, JSON.stringify(newBookmarks))
@@ -67,7 +74,7 @@ append(bookmarksBtn, bookmarksIcon)
 
 // bookmarks modal creation
 const bookmarksModal = create('div', 'modal')
-const bookmarksLabel = create('h2', 'modal-label', null, 'bookmarks')
+const bookmarksLabel = create('h2', 'modal-label', null, 'Bookmarks')
 const clearBookmarksBtn = create('button', [ 'button', 'modal-btn'])
 clearBookmarksBtn.title = 'remove all bookmarks'
 const clearBookmarksIcon = create('i', ['fas', 'fa-trash-alt'])
@@ -101,7 +108,12 @@ bookmarksBtn.addEventListener('click', e => {
 
 // clear bookmarks button on click event
 clearBookmarksBtn.addEventListener('click', () => {
-  const isOK = confirm('are you sure you want to remove all bookmarks?')
+  const bookmarks = JSON.parse(localStorage.getItem(bookmarksKey)) || []
+  if (!bookmarks.length) {
+    alert('There no bookmarks to remove...')
+  }
+
+  const isOK = confirm('Are you sure you want to remove all bookmarks?')
   if (isOK) {
     window.localStorage.setItem(bookmarksKey, JSON.stringify([]))
     renderBookmarksList(bookmarksList)

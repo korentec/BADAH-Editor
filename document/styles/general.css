@@ -76,3 +76,8 @@
   color: red;
   cursor: pointer;
 }
+
+.badah.no-items {
+  text-align: center;
+  margin-top: 40px;
+}
