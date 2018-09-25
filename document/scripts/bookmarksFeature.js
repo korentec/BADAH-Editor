@@ -21,7 +21,7 @@ const renderBookmarksList = bookmarksList => {
   }
 
   bookmarks.forEach(bookmark => {
-    const item = create('li', 'bookmark-item')
+    const item = create('li', 'item')
     const { label, link } = bookmark
     const bookmarkLink = create('p', 'link', null, label || clearHref(link))
     bookmarkLink.addEventListener('click', () => {
@@ -88,7 +88,7 @@ const modalBookmarkBtn = create('button', [ 'button', 'modal-btn'])
 modalBookmarkBtn.title = 'bookmark this page'
 const modalBookmarkIcon = create('i', ['fas', 'fa-bookmark'])
 append(modalBookmarkBtn, modalBookmarkIcon)
-const bookmarksList = create('ol')
+const bookmarksList = create('ol', 'list')
 append(bookmarksModal, [bookmarksLabel, clearBookmarksBtn, modalBookmarkBtn, bookmarksList])
 
 // bookmark this page button on click event

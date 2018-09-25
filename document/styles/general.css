@@ -55,6 +55,10 @@
   margin-right: 10px;
 }
 
+.badah.list {
+  padding-left: 20px;
+}
+
 .badah.item {
   position: relative;
   margin: 10px 0px;

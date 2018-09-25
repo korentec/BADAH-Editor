@@ -133,7 +133,7 @@ const modalNoteBtn = create('button', [ 'button', 'modal-btn'])
 modalNoteBtn.title = 'add a note to this page'
 const modalNoteIcon = create('i', ['fas', 'fa-sticky-note'])
 append(modalNoteBtn, modalNoteIcon)
-const notesList = create('ol')
+const notesList = create('ol', 'list')
 append(notesModal, [notesLabel, clearNotesBtn, modalNoteBtn, notesList])
 
 // note this page on click event
