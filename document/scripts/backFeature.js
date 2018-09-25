@@ -12,11 +12,6 @@ append(backBtn, backIcon)
 
 // back button on click event
 backBtn.addEventListener('click', () => {
-  if (!location.hash) {
-    alert('You are already on the home page')
-    return
-  }
-
   // TBD: back feature on click code
 })
 

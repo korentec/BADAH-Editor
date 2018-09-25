@@ -25,7 +25,7 @@ const renderBookmarksList = bookmarksList => {
     const { label, link } = bookmark
     const bookmarkLink = create('p', 'link', null, label || clearHref(link))
     bookmarkLink.addEventListener('click', () => {
-      window.top.location.href = `${BADAH_VIEWER_PATH}?nav=${link}&doc=${BADAH_DOCUMENT_ID}`
+      window.top.location.href = `${BADAH_VIEWER_PATH}?nav=${link}`
     })
 
     const deleteItem = create('span', 'delete-item')
