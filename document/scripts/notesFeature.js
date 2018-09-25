@@ -4,13 +4,13 @@
 
 /* --------------------------- constants --------------------------- */
 
-const notesKey = `notes_${BADAH_VIEWER_ID}` 
+const notesKey = `notes_${BADAH_VIEWER_ID}`
 
 /* ----------------------------- utils ----------------------------- */
 
 // print note on textarea
 const renderNote = noteInput => {
-  const link = location.hash
+  const link = location.href
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
   const note = notes.find(n => n.link === link)
   noteInput.value = (note && note.text) || ''
@@ -18,18 +18,18 @@ const renderNote = noteInput => {
 
 // save note to local storage
 const saveNote = noteInput => {
-  const link = location.hash
+  const link = location.href
   const text = noteInput.value
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
   const existNoteIndex = notes.findIndex(n => n.link === link)
   if (existNoteIndex !== -1) {
-    if (!text) {
+    if (text) {
       notes[existNoteIndex].text = text
     } else {
       notes.splice(existNoteIndex, 1)
     }
   } else {
-    if (!text) {
+    if (text) {
       notes.push({ link, text })
     }
   }
@@ -74,6 +74,7 @@ append(notesModal, [notesLabel])
 // note this page on click event
 noteBtn.addEventListener('click', e => {
   e.stopPropagation()
+  closeAllModals()
   setStyle(noteModal, { display: 'block' })
   renderNote(noteInput)
 })
@@ -81,6 +82,7 @@ noteBtn.addEventListener('click', e => {
 // notes button on click event
 notesBtn.addEventListener('click', e => {
   e.stopPropagation()
+  closeAllModals()
   setStyle(notesModal, { display: 'block' })
 })
 
@@ -96,6 +98,9 @@ saveNoteBtn.addEventListener('click', () => {
 
 // close note modal on click outside
 closeModalOnClickOutside(noteModal)
+
+// close notes modal on click outside
+closeModalOnClickOutside(notesModal)
 
 // add new elements to DOM
 append(container, [noteBtn, notesBtn])
