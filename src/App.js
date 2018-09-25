@@ -22,14 +22,21 @@ class App extends Component {
   }
 
   render() {
+    const { folders } = this.state
+
     return (
       <div className="wrapper">
         <header></header>
         <main>
-          <Main />
+          <Main 
+            disabledRemoveAll={!folders.length}
+          />
         </main>
         <footer>
-          <Footer />
+          <Footer 
+            disabled={false}
+            loading={false}
+          />
         </footer>
       </div>
     )

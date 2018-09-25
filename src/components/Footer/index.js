@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './Footer.css'
 import { Button } from 'antd'
 
 class Footer extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      disabled: false,
-      loading: false
-    }
-  }
-
   onGenerate() {
     alert('BOOM!')
   }
 
   render() {
-    const { disabled, loading } = this.state
+    const { disabled, loading } = this.props
 
     return (
       <div className="container">
@@ -32,6 +25,11 @@ class Footer extends Component {
       </div>
     )
   }
+}
+
+Footer.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 export default Footer

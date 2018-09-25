@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './Main.css'
 import { Tabs } from 'antd'
 import Sources from './Sources'
@@ -13,10 +14,14 @@ class Main extends Component {
   }
 
   render() {
+    const { disabledRemoveAll } = this.props
+
     return (
       <Tabs defaultActiveKey="sources" onChange={this.onSelectTab}>
         <TabPane tab="Sources" key="sources">
-          <Sources />
+          <Sources 
+            disabledRemoveAll={disabledRemoveAll}
+          />
         </TabPane>
         <TabPane tab="Display" key="display">
           <Display />
@@ -27,6 +32,10 @@ class Main extends Component {
       </Tabs>
     )
   }
+}
+
+Sources.propTypes = {
+  disabledRemoveAll: PropTypes.bool.isRequired
 }
 
 export default Main
