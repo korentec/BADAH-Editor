@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Main from './components/Main'
 import Footer from './components/Footer'
+import { message } from 'antd'
 
 // accessing electron from the react app - example
 // const electron = window.require('electron')
@@ -25,6 +26,19 @@ class App extends Component {
     }
   }
 
+  addSource(path) {
+    const { sources } = this.state
+    if (sources.indexOf(path) === -1) {
+      this.setState({ sources: [ ...sources, path ]})
+    } else {
+      message.error('Folder already exists')
+    }
+  }
+
+  removeAllSources() {
+    this.setState({ sources: [] })
+  }
+
   render() {
     const { sources } = this.state
 
@@ -35,6 +49,8 @@ class App extends Component {
           <Main 
             disabledRemoveAll={!sources.length}
             sources={sources}
+            addSource={this.addSource.bind(this)}
+            removeAllSources={this.removeAllSources.bind(this)}
           />
         </main>
         <footer>

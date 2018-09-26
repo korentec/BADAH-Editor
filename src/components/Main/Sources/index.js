@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Sources.css'
-import { Tooltip, Button } from 'antd'
+import { Tooltip, Button, Upload, Popconfirm } from 'antd'
 import Source from './Source'
 
 class Sources extends Component {
+  onSelectFolder(folder) {
+    const { path } = folder
+    this.props.addSource(path)
+    return Promise.reject()
+  }
+
   render() {
     const { 
       disabledRemoveAll, 
-      sources
+      sources,
+      removeAllSources
     } = this.props
 
     return (
@@ -17,28 +24,38 @@ class Sources extends Component {
           <Tooltip
             className="action"
             placement="rightTop" 
-            title="remove all documents"
+            title="remove all folders"
           >
-            <Button 
-              type="primary"
-              size="large"
-              shape="circle" 
-              icon="delete"
-              disabled={disabledRemoveAll}
-            />
+            <Popconfirm
+              title="Are you sure?"
+              onConfirm={removeAllSources}
+            >
+              <Button 
+                type="primary"
+                size="large"
+                shape="circle" 
+                icon="delete"
+                disabled={disabledRemoveAll}
+              />
+            </Popconfirm>
           </Tooltip>
-          <Tooltip
-            className="action"
-            placement="rightTop" 
-            title="add document"
+          <Upload 
+            directory
+            beforeUpload={this.onSelectFolder.bind(this)}
           >
-            <Button
-              type="primary"
-              size="large"
-              shape="circle" 
-              icon="file-add"
-            />
-          </Tooltip>
+            <Tooltip
+              className="action"
+              placement="rightTop" 
+              title="add folder"
+            >
+              <Button
+                type="primary"
+                size="large"
+                shape="circle" 
+                icon="file-add"
+              />
+            </Tooltip>
+          </Upload>
         </div>
         <div className="list">
           {sources.length ? 
@@ -59,7 +76,9 @@ class Sources extends Component {
 
 Sources.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
-  sources: PropTypes.array.isRequired
+  sources: PropTypes.array.isRequired,
+  addSource: PropTypes.func.isRequired,
+  removeAllSources: PropTypes.func.isRequired
 }
 
 export default Sources

@@ -16,7 +16,9 @@ class Main extends Component {
   render() {
     const { 
       disabledRemoveAll,
-      sources 
+      sources,
+      addSource,
+      removeAllSources
     } = this.props
 
     return (
@@ -25,6 +27,8 @@ class Main extends Component {
           <Sources 
             disabledRemoveAll={disabledRemoveAll}
             sources={sources}
+            addSource={addSource}
+            removeAllSources={removeAllSources}
           />
         </TabPane>
         <TabPane tab="Display" key="display">
@@ -40,7 +44,9 @@ class Main extends Component {
 
 Sources.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
-  sources: PropTypes.array.isRequired
+  sources: PropTypes.array.isRequired,
+  addSource: PropTypes.func.isRequired,
+  removeAllSources: PropTypes.func.isRequired
 }
 
 export default Main

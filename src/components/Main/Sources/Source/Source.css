@@ -9,6 +9,12 @@
   margin: 20px;
 }
 
+.text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .action {
   margin-right: 10px;
 }

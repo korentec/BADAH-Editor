@@ -14,12 +14,12 @@ class Source extends Component {
 
     return (
       <div className="item">
-        <span>{path}</span>
+        <span className="text">{path}</span>
         <span>
           <Tooltip
             className="action"
             placement="rightTop" 
-            title="move document up"
+            title="move folder up"
           >
             <Button 
               shape="circle" 
@@ -30,7 +30,7 @@ class Source extends Component {
           <Tooltip
             className="action"
             placement="rightTop" 
-            title="move document down"
+            title="move folder down"
           >
             <Button 
               shape="circle" 
@@ -41,7 +41,7 @@ class Source extends Component {
           <Tooltip
             className="action"
             placement="rightTop" 
-            title="remove document"
+            title="remove folder"
           >
             <Button
               type="danger"
