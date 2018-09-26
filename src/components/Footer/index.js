@@ -4,12 +4,8 @@ import './Footer.css'
 import { Tooltip, Button } from 'antd'
 
 class Footer extends Component {
-  onGenerate() {
-    alert('BOOM!')
-  }
-
   render() {
-    const { disabled, loading } = this.props
+    const { disabled, loading, generate } = this.props
 
     return (
       <div className="container">
@@ -17,7 +13,7 @@ class Footer extends Component {
         <Tooltip title="generate project">
           <Button 
             type="primary"
-            onClick={this.onGenerate}
+            onClick={generate}
             disabled={disabled}
             loading={loading}
           >
@@ -31,7 +27,8 @@ class Footer extends Component {
 
 Footer.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  generate: PropTypes.func.isRequired
 }
 
 export default Footer

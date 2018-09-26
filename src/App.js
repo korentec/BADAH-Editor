@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import './App.css'
 import Main from './components/Main'
 import Footer from './components/Footer'
-import { message } from 'antd'
-
-// accessing electron from the react app - example
-// const electron = window.require('electron')
-// const fs = electron.remote.require('fs')
-// const ipcRenderer  = electron.ipcRenderer
+import { message, Spin } from 'antd'
+import { generate } from './utils/generate'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      sources: [],
+      loading: false,
+      sources: [
+        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb1',
+        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb2'
+      ],
       display: {
         features: [],
         label: {
@@ -33,7 +33,7 @@ class App extends Component {
           value: ''
         }
       },
-      outPath: ''
+      outPath: 'C:\Users\yuval\Desktop'
     }
   }
 
@@ -42,7 +42,7 @@ class App extends Component {
     if (sources.indexOf(path) === -1) {
       this.setState({ sources: [ ...sources, path ]})
     } else {
-      message.error('Folder already exists')
+      message.error('folder already exists')
     }
   }
 
@@ -90,34 +90,52 @@ class App extends Component {
     this.setState({ display: newDisplay })
   }
 
+  generate() {
+    this.setState({ loading: true })
+    generate(this.state).then(() => {
+      this.setState({ loading: false })
+      message.success('generation succeeded')
+    }).catch(() => {
+      this.setState({ loading: false })
+      message.error('generation failed')
+    })
+  }
+
   render() {
     const { 
       sources, 
       display,
-      outPath
+      outPath,
+      loading
     } = this.state
 
     return (
       <div className="wrapper">
         <header></header>
         <main>
-          <Main 
-            disabledRemoveAll={!sources.length}
-            sources={sources}
-            addSource={this.addSource.bind(this)}
-            removeAllSources={this.removeAllSources.bind(this)}
-            removeSource={this.removeSource.bind(this)}
-            moveSource={this.moveSource.bind(this)}
-            display={display}
-            onInputToggle={this.onInputToggle.bind(this)}
-            onInputChanged={this.onInputChanged.bind(this)}
-            outPath={outPath}
-          />
+          <Spin 
+            tip="generate may take a few minutes ..." 
+            spinning={loading}
+          >
+            <Main 
+              disabledRemoveAll={!sources.length}
+              sources={sources}
+              addSource={this.addSource.bind(this)}
+              removeAllSources={this.removeAllSources.bind(this)}
+              removeSource={this.removeSource.bind(this)}
+              moveSource={this.moveSource.bind(this)}
+              display={display}
+              onInputToggle={this.onInputToggle.bind(this)}
+              onInputChanged={this.onInputChanged.bind(this)}
+              outPath={outPath}
+            />
+          </Spin>
         </main>
         <footer>
           <Footer 
             disabled={!sources.length || !outPath}
-            loading={false}
+            loading={loading}
+            generate={this.generate.bind(this)}
           />
         </footer>
       </div>
