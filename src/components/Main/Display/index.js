@@ -81,7 +81,7 @@ class Display extends Component {
             </span>
           </span>
           <Select
-            style={{ width: 300 }}
+            style={{ width: 600 }}
             disabled={!theme.enable}
             value={theme.value}
             onChange={value => { onInputChanged('theme', value) }}
@@ -99,7 +99,7 @@ class Display extends Component {
               Custom logo:
             </span>
           </span>
-          <span className="logo-container">
+          <span className="upload-container">
             <Upload 
               accept="image/*"
               beforeUpload={this.onSelectLogo.bind(this)}
@@ -125,7 +125,10 @@ class Display extends Component {
           </span>
         </div>
         <div className="box">
-          <CheckboxGroup options={featuresOptions} onChange={values => { onInputChanged('features', values) }} />
+          <CheckboxGroup
+            options={featuresOptions} 
+            onChange={values => { onInputChanged('features', values) }} 
+          />
         </div>
       </section>
     )

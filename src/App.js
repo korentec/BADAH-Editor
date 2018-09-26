@@ -81,6 +81,11 @@ class App extends Component {
 
   onInputChanged(type, value) {
     const { display: newDisplay } = this.state
+    if (type === 'outPath') {
+      this.setState({ outPath: value })
+      return 
+    }
+
     newDisplay[type].value = value
     this.setState({ display: newDisplay })
   }
@@ -88,7 +93,8 @@ class App extends Component {
   render() {
     const { 
       sources, 
-      display 
+      display,
+      outPath
     } = this.state
 
     return (
@@ -105,11 +111,12 @@ class App extends Component {
             display={display}
             onInputToggle={this.onInputToggle.bind(this)}
             onInputChanged={this.onInputChanged.bind(this)}
+            outPath={outPath}
           />
         </main>
         <footer>
           <Footer 
-            disabled={false}
+            disabled={!sources.length || !outPath}
             loading={false}
           />
         </footer>
