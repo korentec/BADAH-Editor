@@ -12,7 +12,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      folders: [],
+      sources: [
+        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb1',
+        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb2',
+        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb3'
+      ],
       features: [],
       label: '',
       classification: '',
@@ -22,14 +26,15 @@ class App extends Component {
   }
 
   render() {
-    const { folders } = this.state
+    const { sources } = this.state
 
     return (
       <div className="wrapper">
         <header></header>
         <main>
           <Main 
-            disabledRemoveAll={!folders.length}
+            disabledRemoveAll={!sources.length}
+            sources={sources}
           />
         </main>
         <footer>
