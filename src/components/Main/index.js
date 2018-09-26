@@ -20,7 +20,10 @@ class Main extends Component {
       addSource,
       removeAllSources,
       removeSource,
-      moveSource
+      moveSource,
+      display,
+      onInputToggle,
+      onInputChanged
     } = this.props
 
     return (
@@ -36,7 +39,11 @@ class Main extends Component {
           />
         </TabPane>
         <TabPane tab="Display" key="display">
-          <Display />
+          <Display 
+            display={display}
+            onInputToggle={onInputToggle}
+            onInputChanged={onInputChanged}
+          />
         </TabPane>
         <TabPane tab="General" key="general">
           <General />
@@ -46,13 +53,16 @@ class Main extends Component {
   }
 }
 
-Sources.propTypes = {
+Main.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
   sources: PropTypes.array.isRequired,
   addSource: PropTypes.func.isRequired,
   removeAllSources: PropTypes.func.isRequired,
   removeSource: PropTypes.func.isRequired,
-  moveSource: PropTypes.func.isRequired
+  moveSource: PropTypes.func.isRequired,
+  display: PropTypes.object.isRequired,
+  onInputToggle: PropTypes.func.isRequired,
+  onInputChanged: PropTypes.func.isRequired
 }
 
 export default Main

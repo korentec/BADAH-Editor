@@ -13,16 +13,27 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      sources: [
-        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb1',
-        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb2',
-        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb3'
-      ],
-      features: [],
-      label: '',
-      classification: '',
-      theme: '',
-      logo: ''
+      sources: [],
+      display: {
+        features: [],
+        label: {
+          enable: false,
+          value: ''
+        },
+        classification: {
+          enable: false,
+          value: ''
+        },
+        theme: {
+          enable: false,
+          value: 'blue'
+        },
+        logo: {
+          enable: false,
+          value: ''
+        }
+      },
+      outPath: ''
     }
   }
 
@@ -62,8 +73,23 @@ class App extends Component {
     this.setState({ sources: newSources }) 
   }
 
+  onInputToggle(type, checked) {
+    const { display: newDisplay } = this.state
+    newDisplay[type].enable = checked
+    this.setState({ display: newDisplay })
+  }
+
+  onInputChanged(type, value) {
+    const { display: newDisplay } = this.state
+    newDisplay[type].value = value
+    this.setState({ display: newDisplay })
+  }
+
   render() {
-    const { sources } = this.state
+    const { 
+      sources, 
+      display 
+    } = this.state
 
     return (
       <div className="wrapper">
@@ -76,6 +102,9 @@ class App extends Component {
             removeAllSources={this.removeAllSources.bind(this)}
             removeSource={this.removeSource.bind(this)}
             moveSource={this.moveSource.bind(this)}
+            display={display}
+            onInputToggle={this.onInputToggle.bind(this)}
+            onInputChanged={this.onInputChanged.bind(this)}
           />
         </main>
         <footer>
