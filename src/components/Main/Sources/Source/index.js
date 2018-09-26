@@ -20,7 +20,6 @@ class Source extends Component {
         <span>
           <Tooltip
             className="action"
-            placement="rightTop" 
             title="move folder up"
           >
             <Button 
@@ -32,7 +31,6 @@ class Source extends Component {
           </Tooltip>
           <Tooltip
             className="action"
-            placement="rightTop" 
             title="move folder down"
           >
             <Button 
@@ -44,7 +42,6 @@ class Source extends Component {
           </Tooltip>
           <Tooltip
             className="action"
-            placement="rightTop" 
             title="remove folder"
           >
             <Button

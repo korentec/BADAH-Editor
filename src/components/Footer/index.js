@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Footer.css'
-import { Button } from 'antd'
+import { Tooltip, Button } from 'antd'
 
 class Footer extends Component {
   onGenerate() {
@@ -14,14 +14,16 @@ class Footer extends Component {
     return (
       <div className="container">
         <p>&copy; Developed by Korentec Technologies for IAI ltd</p>
-        <Button 
-          type="primary"
-          onClick={this.onGenerate}
-          disabled={disabled}
-          loading={loading}
-        >
-          Generate
-        </Button>
+        <Tooltip title="generate project">
+          <Button 
+            type="primary"
+            onClick={this.onGenerate}
+            disabled={disabled}
+            loading={loading}
+          >
+            Generate
+          </Button>
+        </Tooltip>
       </div>
     )
   }

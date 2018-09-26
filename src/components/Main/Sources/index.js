@@ -22,10 +22,9 @@ class Sources extends Component {
 
     return (
       <section>
-        <div>
+        <div className="actions">
           <Tooltip
             className="action"
-            placement="rightTop" 
             title="remove all folders"
           >
             <Popconfirm
@@ -47,7 +46,6 @@ class Sources extends Component {
           >
             <Tooltip
               className="action"
-              placement="rightTop" 
               title="add folder"
             >
               <Button

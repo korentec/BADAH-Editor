@@ -1,8 +1,15 @@
 
 section {
+  height: 76vh;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.actions {
+  flex: 1;
 }
 
 .action {
@@ -10,7 +17,7 @@ section {
 }
 
 .list {
-  height: 76vh;
+  flex: 20;
   overflow-y: auto;
 }
 
