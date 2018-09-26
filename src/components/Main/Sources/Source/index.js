@@ -9,7 +9,9 @@ class Source extends Component {
     const {
       path,
       isFirst,
-      isLast
+      isLast,
+      removeSource,
+      moveSource
     } = this.props
 
     return (
@@ -25,6 +27,7 @@ class Source extends Component {
               shape="circle" 
               icon="arrow-up"
               disabled={isFirst}
+              onClick={() => { moveSource('up', path) }}
             />
           </Tooltip>
           <Tooltip
@@ -36,6 +39,7 @@ class Source extends Component {
               shape="circle" 
               icon="arrow-down"
               disabled={isLast}
+              onClick={() => { moveSource('down', path) }}
             />
           </Tooltip>
           <Tooltip
@@ -47,6 +51,7 @@ class Source extends Component {
               type="danger"
               shape="circle" 
               icon="close"
+              onClick={() => { removeSource(path) }}
             />
           </Tooltip>
         </span>
@@ -58,7 +63,9 @@ class Source extends Component {
 Source.propTypes = {
   path: PropTypes.string.isRequired,
   isFirst: PropTypes.bool.isRequired,
-  isLast: PropTypes.bool.isRequired
+  isLast: PropTypes.bool.isRequired,
+  removeSource: PropTypes.func.isRequired,
+  moveSource: PropTypes.func.isRequired
 }
 
 export default Source

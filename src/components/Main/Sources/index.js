@@ -15,7 +15,9 @@ class Sources extends Component {
     const { 
       disabledRemoveAll, 
       sources,
-      removeAllSources
+      removeAllSources,
+      removeSource,
+      moveSource
     } = this.props
 
     return (
@@ -61,10 +63,12 @@ class Sources extends Component {
           {sources.length ? 
           sources.map((s, i) => (
             <Source 
-              key={i} 
+              key={i}
               path={s}
               isFirst={i === 0}
               isLast={i === (sources.length - 1)}
+              removeSource={removeSource}
+              moveSource={moveSource}
             />
           )) 
           : <p className="no-items-msg">No sources...</p>}
@@ -78,7 +82,9 @@ Sources.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
   sources: PropTypes.array.isRequired,
   addSource: PropTypes.func.isRequired,
-  removeAllSources: PropTypes.func.isRequired
+  removeAllSources: PropTypes.func.isRequired,
+  removeSource: PropTypes.func.isRequired,
+  moveSource: PropTypes.func.isRequired
 }
 
 export default Sources

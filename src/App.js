@@ -39,6 +39,29 @@ class App extends Component {
     this.setState({ sources: [] })
   }
 
+  removeSource(path) {
+    const { sources } = this.state
+    this.setState({ sources: sources.filter(s => s !== path ) })
+  }
+
+  moveSource(dir, path) {
+    const { sources } = this.state
+    const index = sources.indexOf(path)
+    const newSources = [ ...sources ]
+    switch (dir) {
+      case 'up':
+        newSources[index - 1] = path
+        newSources[index] = sources[index - 1]
+        break;
+      case 'down':
+        newSources[index + 1] = path
+        newSources[index] = sources[index + 1]
+        break;
+    }
+  
+    this.setState({ sources: newSources }) 
+  }
+
   render() {
     const { sources } = this.state
 
@@ -51,6 +74,8 @@ class App extends Component {
             sources={sources}
             addSource={this.addSource.bind(this)}
             removeAllSources={this.removeAllSources.bind(this)}
+            removeSource={this.removeSource.bind(this)}
+            moveSource={this.moveSource.bind(this)}
           />
         </main>
         <footer>

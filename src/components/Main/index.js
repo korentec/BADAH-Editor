@@ -18,7 +18,9 @@ class Main extends Component {
       disabledRemoveAll,
       sources,
       addSource,
-      removeAllSources
+      removeAllSources,
+      removeSource,
+      moveSource
     } = this.props
 
     return (
@@ -29,6 +31,8 @@ class Main extends Component {
             sources={sources}
             addSource={addSource}
             removeAllSources={removeAllSources}
+            removeSource={removeSource}
+            moveSource={moveSource}
           />
         </TabPane>
         <TabPane tab="Display" key="display">
@@ -46,7 +50,9 @@ Sources.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
   sources: PropTypes.array.isRequired,
   addSource: PropTypes.func.isRequired,
-  removeAllSources: PropTypes.func.isRequired
+  removeAllSources: PropTypes.func.isRequired,
+  removeSource: PropTypes.func.isRequired,
+  moveSource: PropTypes.func.isRequired
 }
 
 export default Main
