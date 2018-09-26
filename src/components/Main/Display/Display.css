@@ -23,3 +23,8 @@ section {
 .input {
   max-width: 300px;
 }
+
+.logo-container {
+  width: 300px;
+  display: flex;
+}

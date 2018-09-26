@@ -7,10 +7,13 @@ import {
   Select, 
   Upload, 
   Button, 
-  Tooltip 
+  Tooltip,
+  Checkbox
 } from 'antd'
+import { themesOptions, featuresOptions } from '../../../config'
 
 const Option = Select.Option
+const CheckboxGroup = Checkbox.Group
 
 class Display extends Component {
   onSelectLogo(file) {
@@ -21,7 +24,6 @@ class Display extends Component {
   render() {
     const {
       display: {
-        features,
         label,
         classification,
         theme,
@@ -84,10 +86,7 @@ class Display extends Component {
             value={theme.value}
             onChange={value => { onInputChanged('theme', value) }}
           >
-            <Option value="blue">blue</Option>
-            <Option value="gray">gray</Option>
-            <Option value="green">green</Option>
-            <Option value="red">red</Option>
+            {themesOptions.map((color, i) => <Option key={i} value={color}>{color}</Option>)}
           </Select>      
         </div>
         <div className="box">
@@ -100,28 +99,33 @@ class Display extends Component {
               Custom logo:
             </span>
           </span>
-          <Upload 
-            accept="image/*"
-            beforeUpload={this.onSelectLogo.bind(this)}
-          >
-            <Tooltip
-              className="action"
-              title="select logo"
+          <span className="logo-container">
+            <Upload 
+              accept="image/*"
+              beforeUpload={this.onSelectLogo.bind(this)}
             >
-              <Button
-                type="primary"
-                icon="file-add"
-                disabled={!logo.enable}
-              />
-            </Tooltip>
-          </Upload>
-          <Input
-            className="input"
-            disabled={!logo.enable}
-            placeholder="logo path..."
-            value={logo.value}
-            onChange={e => { onInputChanged('logo', e.target.value) }} 
-          />  
+              <Tooltip
+                className="action"
+                title="select logo"
+              >
+                <Button
+                  type="primary"
+                  icon="picture"
+                  disabled={!logo.enable}
+                />
+              </Tooltip>
+            </Upload>
+            <Input
+              className="input"
+              disabled={!logo.enable}
+              placeholder="logo path..."
+              value={logo.value}
+              onChange={e => { onInputChanged('logo', e.target.value) }} 
+            />
+          </span>
+        </div>
+        <div className="box">
+          <CheckboxGroup options={featuresOptions} onChange={values => { onInputChanged('features', values) }} />
         </div>
       </section>
     )
