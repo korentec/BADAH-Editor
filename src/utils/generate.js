@@ -1,20 +1,21 @@
 const electron = window.require('electron')
-const fs = electron.remote.require('fs-extra')
+const fs = electron.remote.require('fs')
+const fse = electron.remote.require('fs-extra')
 const normalize = electron.remote.require('normalize-path')
 
 export const generate = async state => {
   console.log(state)
   const {
     id,
-    outFolderName,
     sources,
     outPath,
     jsFiles,
     cssFiles
   } = stateFormat(state)
 
-  await copyFolders(sources, outPath, outFolderName)
-  await copyNewFiles(jsFiles, cssFiles, outPath, outFolderName)
+  await copyFolders(sources, outPath)
+  await copyNewFiles(jsFiles, cssFiles, outPath)
+  await adjustingNewFiles(id, sources, jsFiles, cssFiles, outPath)
 }
 
 const stateFormat = state => {
@@ -39,7 +40,7 @@ const stateFormat = state => {
     }
   })
 
-  const jsFiles = [ 
+  const jsFiles = [
     'env.js',
     'general.js', 
     ...features.map(f => (
@@ -54,28 +55,45 @@ const stateFormat = state => {
 
   return {
     id,
-    outFolderName: `BADAH-Viewer_${id}`,
     sources: formatedSources,
-    outPath: normalize(outPath),
+    outPath: `${normalize(outPath)}/BADAH-Viewer_${id}`,
     jsFiles,
     cssFiles
   }
 }
 
-const copyFolders = async (sources, outPath, outFolderName) => {
+const copyFolders = async (sources, outPath) => {
   sources.forEach(async src => {
-    await fs.copy(src.path, `${outPath}/${outFolderName}/reverbs/${src.folderName}`)
+    await fse.copy(src.path, `${outPath}/reverbs/${src.folderName}`)
   })
 }
 
-const copyNewFiles = async (jsFiles, cssFiles, outPath, outFolderName) => {
+const copyNewFiles = async (jsFiles, cssFiles, outPath) => {
   jsFiles.forEach(async file => {
-    await fs.copy(`document/scripts/${file}`, `${outPath}/${outFolderName}/document/scripts/${file}`)
+    await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`)
   })
 
   cssFiles.forEach(async file => {
-    await fs.copy(`document/styles/${file}`, `${outPath}/${outFolderName}/document/styles/${file}`)
+    await fse.copy(`document/styles/${file}`, `${outPath}/document/styles/${file}`)
   })
 
-  await fs.copy('viewer', `${outPath}/${outFolderName}`)
+  await fse.copy('viewer', outPath)
+}
+
+const adjustingNewFiles = async (id, sources, jsFiles, cssFiles, outPath) => {
+  const documentEnvData = `const BADAH_VIEWER_ID = ${id}
+const BADAH_VIEWER_PATH = '../../viewer/index.html'`
+
+  const viewerEnvData = `const BADAH_VIEWER_ID = ${id}
+const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`
+  
+  await fs.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData)
+  await fs.writeFile(`${outPath}/viewer/env.js`, viewerEnvData)
+}
+
+const getBadahDocuments = sources => {
+  return JSON.stringify(sources.map(src => ({
+    label: src.folderName,
+    link: `./reverbs/${src.folderName}/index.html`
+  })))
 }
