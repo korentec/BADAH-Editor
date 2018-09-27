@@ -1,11 +1,38 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const url = require('url')
 const path = require('path')
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+
+// custom app menu
+const template = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'New',
+        accelerator: 'CmdOrCtrl+N',
+        click: () => {
+            console.log('new project action')
+        }
+      },
+      {
+        label: 'Quit',
+        accelerator: 'CmdOrCtrl+Q',
+        click: () => {
+          app.quit()
+        }
+      }
+    ]
+  }
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 function createWindow () {
   // Create the browser window.
