@@ -23,7 +23,12 @@
     "extends": null,
     "directories": {
       "buildResources": "public"
-    }
+    },
+    "extraFiles": [
+      "document",
+      "viewer",
+      "node_modules/@fortawesome"
+    ]
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.3.1",

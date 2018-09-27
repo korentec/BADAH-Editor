@@ -3,6 +3,7 @@ const fs = electron.remote.require('fs')
 const fse = electron.remote.require('fs-extra')
 const normalize = electron.remote.require('normalize-path')
 const replace = electron.remote.require('replace-in-file')
+const { featuresOptions } = require('../config')
 
 export const generate = async state => {
   const {
@@ -47,7 +48,7 @@ const stateFormat = state => {
   const jsFiles = [
     'env.js',
     'general.js', 
-    ...features.map(f => (
+    ...orderFeatures(features).map(f => (
       `${f.charAt(0).toLowerCase() + f.slice(1)}Feature.js`
     ))
   ]
@@ -119,6 +120,10 @@ const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`
       to: `--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]-->${newStyles}</head>`
     })
   })
+}
+
+const orderFeatures = features => {
+  return featuresOptions.filter(f => features.indexOf(f) !== -1)
 }
 
 const getBadahDocuments = sources => {
