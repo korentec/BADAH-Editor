@@ -6,13 +6,15 @@ export const generate = async state => {
   console.log(state)
   const {
     id,
+    outFolderName,
     sources,
     outPath,
     jsFiles,
     cssFiles
   } = stateFormat(state)
 
-  await copyFolders(id, sources, outPath)
+  await copyFolders(sources, outPath, outFolderName)
+  await copyNewFiles(jsFiles, cssFiles, outPath, outFolderName)
 }
 
 const stateFormat = state => {
@@ -40,15 +42,19 @@ const stateFormat = state => {
   const jsFiles = [ 
     'env.js',
     'general.js', 
-    ...features.map(f => `${f}Feature.js`) 
+    ...features.map(f => (
+      `${(f.charAt(0).toLowerCase() + f.slice(1)).replace(/\s+/g,'')}Feature.js`
+    ))
   ]
 
-  const cssFiles = [
-    `${theme}Theme.css`
-  ]
+  const cssFiles = ['general.css']
+  if (theme.enable) {
+    cssFiles.push(`${theme.value}Theme.css`)
+  }
 
   return {
     id,
+    outFolderName: `BADAH-Viewer_${id}`,
     sources: formatedSources,
     outPath: normalize(outPath),
     jsFiles,
@@ -56,10 +62,20 @@ const stateFormat = state => {
   }
 }
 
-const copyFolders = async (id, sources, outPath) => {
+const copyFolders = async (sources, outPath, outFolderName) => {
   sources.forEach(async src => {
-    await fs.copy(src.path, `${outPath}/BADAH-Viewer_${id}/${src.folderName}`)
+    await fs.copy(src.path, `${outPath}/${outFolderName}/reverbs/${src.folderName}`)
   })
-  
-  return Promise.resolve()
+}
+
+const copyNewFiles = async (jsFiles, cssFiles, outPath, outFolderName) => {
+  jsFiles.forEach(async file => {
+    await fs.copy(`document/scripts/${file}`, `${outPath}/${outFolderName}/document/scripts/${file}`)
+  })
+
+  cssFiles.forEach(async file => {
+    await fs.copy(`document/styles/${file}`, `${outPath}/${outFolderName}/document/styles/${file}`)
+  })
+
+  await fs.copy('viewer', `${outPath}/${outFolderName}`)
 }

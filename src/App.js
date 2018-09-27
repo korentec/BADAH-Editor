@@ -89,7 +89,12 @@ class App extends Component {
       return 
     }
 
-    newDisplay[type].value = value
+    if (type === 'features') {
+      newDisplay[type] = value
+    } else {
+      newDisplay[type].value = value
+    } 
+
     this.setState({ display: newDisplay })
   }
 
