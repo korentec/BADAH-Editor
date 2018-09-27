@@ -102,6 +102,30 @@ const closeModalOnClickOutside = modal => {
 
 /* ----------------------- DOM manipulation ------------------------ */
 
+// custom header container creation
+const header = create('div', 'header')
+
 // new features container creation
 const container = create('div', 'container')
-append(body, container)
+
+// add custom logo if needed
+if (typeof LOGO_PATH !== 'undefined') {
+  const logo = create('img', 'logo')
+  logo.src = LOGO_PATH
+  append(header, logo)
+}
+
+// add custom label if needed
+if (typeof LABEL !== 'undefined') {
+  const label = create('h1', null, null, LABEL)
+  append(header, label)
+}
+
+// add custom classification if needed
+if (typeof CLASSIFICATION !== 'undefined') {
+  const classification = create('p', null, null, CLASSIFICATION)
+  append(header, classification)
+}
+
+// add new elements to DOM
+append(body, [header, container])

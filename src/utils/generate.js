@@ -12,12 +12,13 @@ export const generate = async state => {
     sources,
     outPath,
     jsFiles,
-    cssFiles
+    cssFiles,
+    display
   } = stateFormat(state)
 
   await copyFolders(sources, outPath)
-  await copyNewFiles(jsFiles, cssFiles, outPath)
-  await adjustingNewFiles(id, sources, jsFiles, cssFiles, outPath)
+  await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
+  await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)
 }
 
 const stateFormat = state => {
@@ -63,7 +64,12 @@ const stateFormat = state => {
     sources: formatedSources,
     outPath: formatedOutPath,
     jsFiles,
-    cssFiles
+    cssFiles,
+    display: {
+      label,
+      classification,
+      logo
+    }
   }
 }
 
@@ -73,7 +79,7 @@ const copyFolders = async (sources, outPath) => {
   })
 }
 
-const copyNewFiles = async (jsFiles, cssFiles, outPath) => {
+const copyNewFiles = async (jsFiles, cssFiles, logo, outPath) => {
   jsFiles.forEach(async file => {
     await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`)
   })
@@ -85,11 +91,30 @@ const copyNewFiles = async (jsFiles, cssFiles, outPath) => {
   await fse.copy('viewer', outPath)
 
   await fse.copy('node_modules/@fortawesome/fontawesome-free', `${outPath}/document/styles/fa`)
+
+  if (logo.enable && logo.value) {
+    const ext = logo.value.split('.').pop()
+    await fse.copy(logo.value, `${outPath}/document/assets/logo.${ext}`)
+  }
 }
 
-const adjustingNewFiles = async (id, sources, jsFiles, cssFiles, outPath) => {
-  const documentEnvData = `const BADAH_VIEWER_ID = '${id}'
+const adjustingNewFiles = async (id, sources, display, jsFiles, cssFiles, outPath) => {
+  const { label, classification, logo } = display
+  let documentEnvData = `const BADAH_VIEWER_ID = '${id}'
 const BADAH_VIEWER_PATH = '../../index.html'`
+
+  if (label.enable && label.value) {
+    documentEnvData += '\n' + `const LABEL = "${label.value}"`
+  }
+
+  if (classification.enable && classification.value) {
+    documentEnvData += '\n' + `const CLASSIFICATION = "${classification.value}"`
+  }
+
+  if (logo.enable && logo.value) {
+    const ext = logo.value.split('.').pop()
+    documentEnvData += '\n' + `const LOGO_PATH = "../../document/assets/logo.${ext}"`
+  }
 
   const viewerEnvData = `const BADAH_VIEWER_ID = '${id}'
 const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`

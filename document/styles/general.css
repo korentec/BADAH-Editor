@@ -6,6 +6,19 @@
   box-sizing: border-box;
 }
 
+.badah.header {
+  position: absolute;
+  display: flex;
+  top: 6px;
+  right: 50%;
+  transform: translateX(-50%);
+}
+
+.badah.logo {
+  max-width: 50px;
+  max-height: 50px;
+}
+
 .badah.container {
   position: absolute;
   top: 6px;

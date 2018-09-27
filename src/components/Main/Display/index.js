@@ -10,7 +10,11 @@ import {
   Tooltip,
   Checkbox
 } from 'antd'
-import { themesOptions, featuresOptions } from '../../../config'
+import { 
+  classificationOptions,
+  themesOptions, 
+  featuresOptions 
+} from '../../../config'
 
 const Option = Select.Option
 const CheckboxGroup = Checkbox.Group
@@ -62,13 +66,14 @@ class Display extends Component {
               Custom classification:
             </span>
           </span>
-          <Input
-            className="input"
+          <Select
+            style={{ width: 600 }}
             disabled={!classification.enable}
-            placeholder="classification input.."
             value={classification.value}
-            onChange={e => { onInputChanged('classification', e.target.value) }}
-          />            
+            onChange={value => { onInputChanged('classification', value) }}
+          >
+            {classificationOptions.map((classification, i) => <Option key={i} value={classification}>{classification}</Option>)}
+          </Select>   
         </div>
         <div className="box">
           <span>

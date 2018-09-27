@@ -11,10 +11,7 @@ class App extends Component {
     super(props)
     this.state = {
       loading: false,
-      sources: [
-        'C:\\Users\\yuval\\projects\\BADAH\\BADAH-docs\\Examples\\Reverb1',
-        'C:\\Users\\yuval\\projects\\BADAH\\BADAH-docs\\Examples\\Reverb2'
-      ],
+      sources: [],
       display: {
         features: [],
         label: {
@@ -23,7 +20,7 @@ class App extends Component {
         },
         classification: {
           enable: false,
-          value: ''
+          value: 'unclassified'
         },
         theme: {
           enable: false,
@@ -34,7 +31,7 @@ class App extends Component {
           value: ''
         }
       },
-      outPath: 'C:\\Users\\yuval\\Desktop'
+      outPath: ''
     }
   }
 
@@ -145,7 +142,7 @@ class App extends Component {
         <header></header>
         <main>
           <Spin 
-            tip="generate may take a few minutes ..." 
+            tip="generate may take a few secondes ..." 
             spinning={loading}
           >
             <Main 
