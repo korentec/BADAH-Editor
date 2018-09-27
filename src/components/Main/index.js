@@ -9,10 +9,6 @@ import General from './General'
 const { TabPane } = Tabs
 
 class Main extends Component {
-  onSelectTab(key) {
-    console.log(key)
-  }
-
   render() {
     const { 
       disabledRemoveAll,
@@ -28,7 +24,7 @@ class Main extends Component {
     } = this.props
 
     return (
-      <Tabs defaultActiveKey="sources" onChange={this.onSelectTab}>
+      <Tabs defaultActiveKey="sources">
         <TabPane tab="Sources" key="sources">
           <Sources 
             disabledRemoveAll={disabledRemoveAll}

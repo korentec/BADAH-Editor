@@ -38,13 +38,24 @@ class App extends Component {
     }
   }
 
-  addSource(path) {
-    // TBD: validate source
+  async addSource(path) {
     const { sources } = this.state
-    if (sources.indexOf(path) === -1) {
+    try {
+      if (sources.indexOf(path) > -1) {
+        throw 'folder already exists'
+      }
+
+      if (!(await isFileExist('folder', path))) {
+        throw 'source path is not a valid directory'
+      }
+
+      if (!(await isFileExist('entry', `${path}/index.html`))) {
+        throw 'source path is not have a index.html entry file'
+      }
+
       this.setState({ sources: [ ...sources, path ]})
-    } else {
-      message.error('folder already exists')
+    } catch (error) {
+      message.error(error)
     }
   }
 

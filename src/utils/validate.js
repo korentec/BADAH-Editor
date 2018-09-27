@@ -11,17 +11,19 @@ export const isFileExist = (type, path) => {
           if (stats.isDirectory()) {
             res = true
           }
-          break;
+          break
         case 'image':
           const ext = path.split('.').pop()
-          console.log(ext)
           if (ext === 'jpg' || ext === 'png') {
             res = true
           }
-          break;
+          break
+        case 'entry':
+          res = true
+          break
       
         default:
-          break;
+          break
       }
     }
   } catch (error) {
