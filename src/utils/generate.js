@@ -5,7 +5,6 @@ const normalize = electron.remote.require('normalize-path')
 const replace = electron.remote.require('replace-in-file')
 
 export const generate = async state => {
-  console.log(state)
   const {
     id,
     sources,
@@ -26,9 +25,9 @@ const stateFormat = state => {
     outPath,
     display: {
       features,
+      theme,
       label,
       classification,
-      theme,
       logo
     }
   } = state
@@ -89,7 +88,7 @@ const copyNewFiles = async (jsFiles, cssFiles, outPath) => {
 
 const adjustingNewFiles = async (id, sources, jsFiles, cssFiles, outPath) => {
   const documentEnvData = `const BADAH_VIEWER_ID = ${id}
-const BADAH_VIEWER_PATH = '../../viewer/index.html'`
+const BADAH_VIEWER_PATH = '../../index.html'`
 
   const viewerEnvData = `const BADAH_VIEWER_ID = ${id}
 const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`
@@ -120,13 +119,11 @@ const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`
       to: `--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]-->${newStyles}</head>`
     })
   })
-
- 
 }
 
 const getBadahDocuments = sources => {
   return JSON.stringify(sources.map(src => ({
     label: src.folderName,
-    link: src.newEntryPath
+    link: `./reverbs/${src.folderName}/index.html`
   })))
 }

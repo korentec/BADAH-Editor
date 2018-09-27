@@ -107,7 +107,6 @@ class App extends Component {
       this.setState({ loading: false })
       message.error('generation failed')
     })
-    
   }
 
   render() {
