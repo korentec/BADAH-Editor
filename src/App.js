@@ -9,10 +9,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: 1234, // TBD: use guid
       loading: false,
       sources: [
-        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb1',
-        'C:\Users\yuval\projects\BADAH\BADAH-docs\Examples\Reverb2'
+        'C:\\Users\\yuval\\projects\\BADAH\\BADAH-docs\\Examples\\Reverb1',
+        'C:\\Users\\yuval\\projects\\BADAH\\BADAH-docs\\Examples\\Reverb2'
       ],
       display: {
         features: [],
@@ -33,11 +34,12 @@ class App extends Component {
           value: ''
         }
       },
-      outPath: 'C:\Users\yuval\Desktop'
+      outPath: 'C:\\Users\\yuval\\Desktop'
     }
   }
 
   addSource(path) {
+    // TBD: validate source
     const { sources } = this.state
     if (sources.indexOf(path) === -1) {
       this.setState({ sources: [ ...sources, path ]})
@@ -63,11 +65,11 @@ class App extends Component {
       case 'up':
         newSources[index - 1] = path
         newSources[index] = sources[index - 1]
-        break;
+        break
       case 'down':
         newSources[index + 1] = path
         newSources[index] = sources[index + 1]
-        break;
+        break
     }
   
     this.setState({ sources: newSources }) 
@@ -82,6 +84,7 @@ class App extends Component {
   onInputChanged(type, value) {
     const { display: newDisplay } = this.state
     if (type === 'outPath') {
+      // TBD: validate out path
       this.setState({ outPath: value })
       return 
     }
@@ -99,6 +102,7 @@ class App extends Component {
       this.setState({ loading: false })
       message.error('generation failed')
     })
+    
   }
 
   render() {
