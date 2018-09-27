@@ -9,7 +9,6 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: 1234, // TBD: use guid
       loading: false,
       sources: [
         'C:\\Users\\yuval\\projects\\BADAH\\BADAH-docs\\Examples\\Reverb1',

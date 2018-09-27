@@ -4,6 +4,7 @@ const fse = electron.remote.require('fs-extra')
 const normalize = electron.remote.require('normalize-path')
 const replace = electron.remote.require('replace-in-file')
 const { featuresOptions } = require('../config')
+const uniqid = require('uniqid')
 
 export const generate = async state => {
   const {
@@ -21,7 +22,6 @@ export const generate = async state => {
 
 const stateFormat = state => {
   const {
-    id,
     sources,
     outPath,
     display: {
@@ -33,8 +33,8 @@ const stateFormat = state => {
     }
   } = state
 
+  const id = uniqid()
   const formatedOutPath = `${normalize(outPath)}/BADAH-Viewer_${id}`
-
   const formatedSources = sources.map(src => {
     const formatedSrc = normalize(src)
     const folderName = formatedSrc.split('/').pop()
@@ -88,10 +88,10 @@ const copyNewFiles = async (jsFiles, cssFiles, outPath) => {
 }
 
 const adjustingNewFiles = async (id, sources, jsFiles, cssFiles, outPath) => {
-  const documentEnvData = `const BADAH_VIEWER_ID = ${id}
+  const documentEnvData = `const BADAH_VIEWER_ID = '${id}'
 const BADAH_VIEWER_PATH = '../../index.html'`
 
-  const viewerEnvData = `const BADAH_VIEWER_ID = ${id}
+  const viewerEnvData = `const BADAH_VIEWER_ID = '${id}'
 const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`
   
   await fs.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData)
