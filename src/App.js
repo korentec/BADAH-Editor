@@ -4,6 +4,7 @@ import Main from './components/Main'
 import Footer from './components/Footer'
 import { message, Spin } from 'antd'
 import { generate } from './utils/generate'
+import { isFileExist } from './utils/validate'
 
 class App extends Component {
   constructor(props) {
@@ -83,7 +84,6 @@ class App extends Component {
   onInputChanged(type, value) {
     const { display: newDisplay } = this.state
     if (type === 'outPath') {
-      // TBD: validate out path
       this.setState({ outPath: value })
       return 
     }
@@ -97,15 +97,28 @@ class App extends Component {
     this.setState({ display: newDisplay })
   }
 
-  generate() {
+  async generate() {
+    const { outPath, display: { logo } } = this.state
     this.setState({ loading: true })
-    generate(this.state).then(() => {
-      this.setState({ loading: false })
+    try {
+      if (!(await isFileExist('folder', outPath))) {
+        throw 'out path is not a valid directory'
+      }
+
+      if (logo.enable && logo.value) {
+        if (!(await isFileExist('image', logo.value))) {
+          throw 'logo image is not valid or not exists'
+        }  
+      }
+    
+      await generate(this.state)
       message.success('generation succeeded')
-    }).catch(() => {
+    } catch (error) {
       this.setState({ loading: false })
-      message.error('generation failed')
-    })
+      message.error(error || 'generation failed')
+    }
+
+    this.setState({ loading: false })
   }
 
   render() {

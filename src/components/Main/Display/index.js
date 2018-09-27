@@ -101,7 +101,7 @@ class Display extends Component {
           </span>
           <span className="upload-container">
             <Upload 
-              accept="image/*"
+              accept="image/jpeg, image/png"
               beforeUpload={this.onSelectLogo.bind(this)}
             >
               <Tooltip
