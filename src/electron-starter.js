@@ -3,7 +3,6 @@ const { app, BrowserWindow, Menu } = require('electron')
 const url = require('url')
 const path = require('path')
 
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -17,7 +16,14 @@ const template = [
         label: 'New',
         accelerator: 'CmdOrCtrl+N',
         click: () => {
-            console.log('new project action')
+          mainWindow.webContents.reload()
+        }
+      },
+      {
+        label: 'Dev tools',
+        accelerator: 'CmdOrCtrl+D',
+        click: () => {
+          mainWindow.webContents.openDevTools()
         }
       },
       {
