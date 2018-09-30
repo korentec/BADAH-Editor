@@ -1,1 +1,13 @@
 /* ************** green theme css for BADAH document *************** */
+
+/* badah css */
+
+.badah.action-btn {
+  background-color: rgb(126, 3, 3);
+}
+
+/* reverb css  */
+
+.ww_skin_toolbar_background_default {
+  background: rgb(218, 96, 96);
+}
