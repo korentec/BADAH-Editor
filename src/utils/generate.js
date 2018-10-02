@@ -66,6 +66,7 @@ const stateFormat = state => {
     jsFiles,
     cssFiles,
     display: {
+      theme,
       label,
       classification,
       logo
@@ -99,7 +100,7 @@ const copyNewFiles = async (jsFiles, cssFiles, logo, outPath) => {
 }
 
 const adjustingNewFiles = async (id, sources, display, jsFiles, cssFiles, outPath) => {
-  const { label, classification, logo } = display
+  const { label, classification, logo, theme } = display
   let documentEnvData = `const BADAH_VIEWER_ID = '${id}'
 const BADAH_VIEWER_PATH = '../../index.html'`
 
@@ -117,7 +118,8 @@ const BADAH_VIEWER_PATH = '../../index.html'`
   }
 
   const viewerEnvData = `const BADAH_VIEWER_ID = '${id}'
-const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}`
+const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}
+const THEME = '${(theme.enable && theme.value) || null}'`
   
   await fs.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData)
   await fs.writeFile(`${outPath}/viewer/env.js`, viewerEnvData)

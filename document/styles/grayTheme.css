@@ -1,12 +1,26 @@
 /* ************** gray theme css for BADAH document **************** */
 
-/* badah css */
+/* BADAH-Viewer css */
+
+.viewer header {
+  background-color: rgb(155, 155, 155);
+}
+
+.viewer h1 {
+  background-color: rgb(211, 211, 211);
+}
+
+.viewer .tab.selected {
+  background-color: rgb(110, 110, 110);
+}
+
+/* custom document css */
 
 .badah.action-btn {
   background-color: rgb(155, 155, 155);
 }
 
-/* reverb css  */
+/* exist reverb css  */
 
 .ww_skin_toolbar_background_default {
   background: rgb(224, 224, 224);

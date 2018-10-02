@@ -64,4 +64,13 @@
   // create tabs
   renderTabs()
 
+  // import theme stylesheet
+  if (typeof THEME !== 'undefined' && THEME !== 'null') {
+    const head = document.querySelector('head')
+    const link = document.createElement('link')
+    link.setAttribute('rel', 'stylesheet')
+    link.href = `./document/styles/${THEME}Theme.css`
+    head.appendChild(link)
+  } 
+
 })()
