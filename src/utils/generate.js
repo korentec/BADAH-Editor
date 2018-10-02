@@ -36,10 +36,11 @@ const stateFormat = state => {
 
   const id = uniqid()
   const formatedOutPath = `${normalize(outPath)}/BADAH-Viewer_${id}`
-  const formatedSources = sources.map(src => {
-    const formatedSrc = normalize(src)
+  const formatedSources = sources.map(({ name, path }) => {
+    const formatedSrc = normalize(path)
     const folderName = formatedSrc.split('/').pop()
     return {
+      name,
       folderName,
       path: formatedSrc,
       newEntryPath: `${formatedOutPath}/reverbs/${folderName}/index.html`
@@ -154,8 +155,8 @@ const orderFeatures = features => {
 }
 
 const getBadahDocuments = sources => {
-  return JSON.stringify(sources.map(src => ({
-    label: src.folderName,
-    link: `./reverbs/${src.folderName}/index.html`
+  return JSON.stringify(sources.map(({ name, folderName }) => ({
+    label: name || folderName,
+    link: `./reverbs/${folderName}/index.html`
   })))
 }

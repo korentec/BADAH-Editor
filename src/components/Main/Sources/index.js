@@ -15,6 +15,7 @@ class Sources extends Component {
     const { 
       disabledRemoveAll, 
       sources,
+      editSourceName,
       removeAllSources,
       removeSource,
       moveSource
@@ -62,9 +63,10 @@ class Sources extends Component {
           sources.map((s, i) => (
             <Source 
               key={i}
-              path={s}
+              src={s}
               isFirst={i === 0}
               isLast={i === (sources.length - 1)}
+              editSourceName={editSourceName}
               removeSource={removeSource}
               moveSource={moveSource}
             />
@@ -80,6 +82,7 @@ Sources.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
   sources: PropTypes.array.isRequired,
   addSource: PropTypes.func.isRequired,
+  editSourceName: PropTypes.func.isRequired,
   removeAllSources: PropTypes.func.isRequired,
   removeSource: PropTypes.func.isRequired,
   moveSource: PropTypes.func.isRequired

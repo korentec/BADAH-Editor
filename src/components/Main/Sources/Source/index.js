@@ -1,21 +1,31 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Source.css'
-import { Tooltip, Button } from 'antd'
+import { Input, Tooltip, Button } from 'antd'
 
 
 class Source extends Component {
   render() {
     const {
-      path,
+      src: {
+        name,
+        path
+      },
       isFirst,
       isLast,
+      editSourceName,
       removeSource,
       moveSource
     } = this.props
 
     return (
       <div className="item">
+       <Input
+          className="reverb-name"
+          placeholder="reverb name"
+          value={name}
+          onChange={e => { editSourceName(path, e.target.value) }}
+        />  
         <span className="text">{path}</span>
         <span>
           <Tooltip
@@ -58,9 +68,10 @@ class Source extends Component {
 }
 
 Source.propTypes = {
-  path: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
   isFirst: PropTypes.bool.isRequired,
   isLast: PropTypes.bool.isRequired,
+  editSourceName: PropTypes.func.isRequired,
   removeSource: PropTypes.func.isRequired,
   moveSource: PropTypes.func.isRequired
 }

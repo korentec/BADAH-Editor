@@ -9,6 +9,10 @@
   margin: 20px;
 }
 
+.reverb-name {
+  max-width: 200px;
+}
+
 .text {
   text-overflow: ellipsis;
   white-space: nowrap;

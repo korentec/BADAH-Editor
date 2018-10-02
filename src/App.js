@@ -41,7 +41,7 @@ class App extends Component {
   async addSource(path) {
     const { sources } = this.state
     try {
-      if (sources.indexOf(path) > -1) {
+      if (sources.findIndex(s => s.path === path) > -1) {
         throw 'folder already exists'
       }
 
@@ -53,10 +53,18 @@ class App extends Component {
         throw 'source path is not have a index.html entry file'
       }
 
-      this.setState({ sources: [ ...sources, path ]})
+      this.setState({ sources: [ ...sources, { name: '', path  } ]})
     } catch (error) {
       message.error(error)
     }
+  }
+
+  editSourceName(path, name) {
+    const { sources } = this.state
+    const newSources = [ ...sources ]
+    const index = sources.findIndex(s => s.path === path)
+    newSources[index].name = name
+    this.setState({ sources: newSources})
   }
 
   removeAllSources() {
@@ -65,20 +73,20 @@ class App extends Component {
 
   removeSource(path) {
     const { sources } = this.state
-    this.setState({ sources: sources.filter(s => s !== path ) })
+    this.setState({ sources: sources.filter(s => s.path !== path ) })
   }
 
   moveSource(dir, path) {
     const { sources } = this.state
-    const index = sources.indexOf(path)
+    const index = sources.findIndex(s => s.path === path)
     const newSources = [ ...sources ]
     switch (dir) {
       case 'up':
-        newSources[index - 1] = path
+        newSources[index - 1] = sources[index]
         newSources[index] = sources[index - 1]
         break
       case 'down':
-        newSources[index + 1] = path
+        newSources[index + 1] = sources[index]
         newSources[index] = sources[index + 1]
         break
     }
@@ -152,6 +160,7 @@ class App extends Component {
               disabledRemoveAll={!sources.length}
               sources={sources}
               addSource={this.addSource.bind(this)}
+              editSourceName={this.editSourceName.bind(this)}
               removeAllSources={this.removeAllSources.bind(this)}
               removeSource={this.removeSource.bind(this)}
               moveSource={this.moveSource.bind(this)}

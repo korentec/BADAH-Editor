@@ -14,6 +14,7 @@ class Main extends Component {
       disabledRemoveAll,
       sources,
       addSource,
+      editSourceName,
       removeAllSources,
       removeSource,
       moveSource,
@@ -30,6 +31,7 @@ class Main extends Component {
             disabledRemoveAll={disabledRemoveAll}
             sources={sources}
             addSource={addSource}
+            editSourceName={editSourceName}
             removeAllSources={removeAllSources}
             removeSource={removeSource}
             moveSource={moveSource}
@@ -57,6 +59,7 @@ Main.propTypes = {
   disabledRemoveAll: PropTypes.bool.isRequired,
   sources: PropTypes.array.isRequired,
   addSource: PropTypes.func.isRequired,
+  editSourceName: PropTypes.func.isRequired,
   removeAllSources: PropTypes.func.isRequired,
   removeSource: PropTypes.func.isRequired,
   moveSource: PropTypes.func.isRequired,
