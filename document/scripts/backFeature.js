@@ -15,5 +15,11 @@ backBtn.addEventListener('click', () => {
   // TBD: back feature on click code
 })
 
+// get last link from iframe page
+window.addEventListener('message', data => { 
+  // TBD: back feature on add link message code
+  console.log(data)
+} , false)
+
 // add new element to DOM
 append(container, backBtn)

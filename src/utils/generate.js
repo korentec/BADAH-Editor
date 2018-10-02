@@ -3,6 +3,7 @@ const fs = electron.remote.require('fs')
 const fse = electron.remote.require('fs-extra')
 const normalize = electron.remote.require('normalize-path')
 const replace = electron.remote.require('replace-in-file')
+const find = electron.remote.require('find')
 const { featuresOptions } = require('../config')
 const uniqid = require('uniqid')
 
@@ -146,6 +147,21 @@ const THEME = '${(theme.enable && theme.value) || null}'`
       files: src.newEntryPath,
       from: '--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]--></head>',
       to: `--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]-->${newStyles}</head>`
+    })
+  })
+
+  const pageScript = `window.addEventListener('load', () => {
+  document.querySelectorAll('.Cross_Reference > a').forEach(link => {
+    link.addEventListener('click', e => { 
+      const data = { action: 'last_link', link: e.target.href }                
+      Message.Post(Page.window.parent, data, Page.window)
+    })
+  })
+})`
+
+  find.file('page.js', outPath, files => {
+    files.forEach(async file => {
+      await fs.appendFile(file, pageScript);
     })
   })
 }

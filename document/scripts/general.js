@@ -7,6 +7,7 @@
 
 const { localStorage } = window
 const body = document.querySelector('body')
+const iframe = document.querySelector('#page_iframe')
 
 /* ----------------------------- utils ----------------------------- */
 
@@ -86,7 +87,6 @@ const closeModalOnClickOutside = modal => {
     }
   })
 
-  const iframe = document.querySelector('#page_iframe')
   iframe.addEventListener('mouseover', () => {
     iframeMouseOver = true
   })

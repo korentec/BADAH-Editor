@@ -33,6 +33,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.3.1",
     "antd": "^3.9.2",
+    "find": "^0.2.9",
     "fs-extra": "^7.0.0",
     "homedir": "^0.6.0",
     "normalize-path": "^3.0.0",
