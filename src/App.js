@@ -6,6 +6,9 @@ import { message, Spin } from 'antd'
 import { generate } from './utils/generate'
 import { isFileExist } from './utils/validate'
 
+const electron = window.require('electron')
+const homedir = electron.remote.require('homedir')
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -31,7 +34,7 @@ class App extends Component {
           value: ''
         }
       },
-      outPath: ''
+      outPath: `${homedir()}\\Desktop`
     }
   }
 

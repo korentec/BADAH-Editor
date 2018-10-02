@@ -34,6 +34,7 @@
     "@fortawesome/fontawesome-free": "^5.3.1",
     "antd": "^3.9.2",
     "fs-extra": "^7.0.0",
+    "homedir": "^0.6.0",
     "normalize-path": "^3.0.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
