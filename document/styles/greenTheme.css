@@ -16,6 +16,10 @@
 
 /* custom document css */
 
+.badah.header {
+  background-color: rgb(124, 189, 124);
+}
+
 .badah.action-btn {
   background-color: rgb(29, 119, 29);
 }
@@ -24,4 +28,9 @@
 
 .ww_skin_toolbar_background_default {
   background: rgb(124, 189, 124);
+}
+
+.ww_skin_toolbar_background_selected, 
+.ww_skin_toolbar_background_selected:hover {
+  background: rgb(16, 92, 16);
 }

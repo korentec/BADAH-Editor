@@ -133,3 +133,6 @@ if (typeof LABEL !== 'undefined') {
 
 // add new elements to DOM
 append(body, [header, container])
+
+// remove unnecessary original reverb features
+document.querySelectorAll('.ww_behavior_home').forEach(elem => elem.remove())
