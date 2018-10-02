@@ -44,6 +44,7 @@
       }
   
       tab.innerText = doc.label
+      tab.title = doc.label
       // on select tab
       tab.addEventListener('click', () => {
         location.href = `${location.pathname}#?nav=${doc.link}`

@@ -104,6 +104,9 @@ const closeModalOnClickOutside = modal => {
 
 // custom header container creation
 const header = create('div', 'header')
+const leftHeader = create('div', 'header-box')
+const rightHeader = create('div', 'header-box')
+append(header, [leftHeader, rightHeader])
 
 // new features container creation
 const container = create('div', 'container')
@@ -112,19 +115,20 @@ const container = create('div', 'container')
 if (typeof LOGO_PATH !== 'undefined') {
   const logo = create('img', 'logo')
   logo.src = LOGO_PATH
-  append(header, logo)
-}
-
-// add custom label if needed
-if (typeof LABEL !== 'undefined') {
-  const label = create('h1', null, null, LABEL)
-  append(header, label)
+  append(leftHeader, logo)
 }
 
 // add custom classification if needed
 if (typeof CLASSIFICATION !== 'undefined') {
-  const classification = create('p', null, null, CLASSIFICATION)
-  append(header, classification)
+  const classification = create('p', 'classification', null, CLASSIFICATION)
+  append(rightHeader, classification)
+}
+
+// add custom label if needed
+if (typeof LABEL !== 'undefined') {
+  const label = create('h1', 'label', null, LABEL)
+  label.title = LABEL
+  append(rightHeader, label)
 }
 
 // add new elements to DOM

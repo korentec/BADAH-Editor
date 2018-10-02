@@ -7,20 +7,39 @@
 }
 
 .badah.header {
-  position: absolute;
+  position: fixed;
   display: flex;
-  top: 6px;
-  right: 50%;
+  align-items: center;
+  top: 0;
+  left: 50%;
   transform: translateX(-50%);
+  background-color: white;
+}
+
+.badah.header-box {
+  display: inline-block;
+  text-align: center;
+  margin: 0px 20px;
 }
 
 .badah.logo {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 60px;
+  max-height: 60px;
+}
+
+.badah.label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 600px;
+}
+
+.badah.classification {
+  color: rgb(158, 14, 14);
 }
 
 .badah.container {
-  position: absolute;
+  position: fixed;
   top: 6px;
   right: 10px;
 }
@@ -102,4 +121,16 @@
   height: 484px;
   resize: none;
   margin: 10px 0px;
+}
+
+@media screen and (max-width: 1500px) {
+  .badah.label {
+    max-width: 200px;
+  }
+
+  .badah.action-btn {
+    display: block;
+    color: white;
+    margin: 8px 0px;
+  }
 }
