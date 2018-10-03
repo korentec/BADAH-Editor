@@ -17,7 +17,6 @@ homeBtn.addEventListener('click', () => {
     return
   }
 
-  location.replace(location.pathname)
   const data = JSON.stringify({ action: 'navigate', nav: '' })
   window.top.postMessage(data, '*')
 })

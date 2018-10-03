@@ -165,3 +165,7 @@ setTimeout(() => {
     })
   })
 }, 100)
+
+window.addEventListener("hashchange", () => {
+  sendOnNavigate(window.location.href)
+})
