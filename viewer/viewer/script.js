@@ -7,6 +7,7 @@
   /* --------------------------- constants --------------------------- */
 
   const iframe = document.querySelector('iframe')
+  const historyKey = `history_${BADAH_VIEWER_ID}`
   let currentDocUrl = null
 
   /* ----------------------------- utils ----------------------------- */
@@ -96,5 +97,11 @@
     const splitUrl = location.href.split('#page')
     location.href = nav ? `${splitUrl[0]}#page/${nav}` : splitUrl[0]
   })
+
+  // clear last link history when close browser
+  window.addEventListener('beforeunload', () => {
+    localStorage.removeItem(historyKey)
+  })
+
 
 })()

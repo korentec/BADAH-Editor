@@ -57,10 +57,5 @@ window.addEventListener('message', e => {
   }
 }, false)
 
-// clear history when close browser
-window.addEventListener('beforeunload', () => {
-  localStorage.removeItem(historyKey)
-})
-
 // add new element to DOM
 append(container, backBtn)
