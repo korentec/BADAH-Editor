@@ -152,9 +152,10 @@ const THEME = '${(theme.enable && theme.value) || null}'`
 
   const pageScript = `window.addEventListener('load', () => {
   document.querySelectorAll('.Cross_Reference > a').forEach(link => {
-    link.addEventListener('click', e => { 
-      const data = { action: 'last_link', link: e.target.href }                
-      Message.Post(Page.window.parent, data, Page.window)
+    link.addEventListener('click', e => {
+      e.preventDefault()
+      const { href } = e.target
+      Message.Post(Page.window.parent, { action: 'last_link', href }, Page.window)
     })
   })
 })`

@@ -18,6 +18,8 @@ homeBtn.addEventListener('click', () => {
   }
 
   location.replace(location.pathname)
+  const data = JSON.stringify({ action: 'navigate', nav: '' })
+  window.top.postMessage(data, '*')
 })
 
 // add new element to DOM

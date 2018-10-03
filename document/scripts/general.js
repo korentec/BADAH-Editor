@@ -100,6 +100,14 @@ const closeModalOnClickOutside = modal => {
   })
 }
 
+// send link to BADAH-Viewer when navigate
+const sendOnNavigate = href => {
+  const splitHref = href.split('/')
+  const nav = `${splitHref[splitHref.length - 2]}/${splitHref[splitHref.length - 1]}`
+  const data = JSON.stringify({ action: 'navigate', nav })
+  window.top.postMessage(data, '*')
+}
+
 /* ----------------------- DOM manipulation ------------------------ */
 
 // custom header container creation
@@ -136,3 +144,24 @@ append(body, [header, container])
 
 // remove unnecessary original reverb features
 document.querySelectorAll('.ww_behavior_home').forEach(elem => elem.remove())
+
+// change BADAH-Viewer url every document navigation
+setTimeout(() => {
+  document.querySelectorAll('.ww_skin_toc_entry').forEach(elem => {
+    elem.addEventListener('click', () => {
+      const a = elem.querySelector('a')
+      if (a) {
+        const { href } = a
+        sendOnNavigate(href)
+      }
+    })
+  })
+
+  document.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault()
+      const { href } = e.target
+      sendOnNavigate(href)
+    })
+  })
+}, 100)

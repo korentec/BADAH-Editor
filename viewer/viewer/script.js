@@ -72,6 +72,29 @@
     link.setAttribute('rel', 'stylesheet')
     link.href = `./document/styles/${THEME}Theme.css`
     head.appendChild(link)
-  } 
+  }
+
+  // send document BADAH-Viewer url
+  window.addEventListener('message', e => {
+    const { action } = JSON.parse(e.data)
+    if (action !== 'get_url') {
+      return
+    }
+
+    const url = window.location.href
+    const data = JSON.stringify({ action: 'get_url', url })
+    iframe.contentWindow.postMessage(data, '*')
+  }, false)
+
+  // on document navigate
+  window.addEventListener('message', e => {
+    const { action, nav } = JSON.parse(e.data)
+    if (action !== 'navigate') {
+      return
+    }
+
+    const splitUrl = location.href.split('#page')
+    location.href = nav ? `${splitUrl[0]}#page/${nav}` : splitUrl[0]
+  })
 
 })()
