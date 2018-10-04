@@ -98,9 +98,4 @@
     location.href = nav ? `${splitUrl[0]}#page/${nav}` : splitUrl[0]
   })
 
-  // clear last link history when close browser
-  window.addEventListener('beforeunload', () => {
-    localStorage.removeItem(historyKey)
-  })
-
 })()
