@@ -42,7 +42,11 @@ Menu.setApplicationMenu(menu)
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1200, height: 800 })
+  mainWindow = new BrowserWindow({ 
+    width: 1200, 
+    height: 800,
+    icon: path.join(__dirname, '/../public/icon.ico')
+  })
 
   // load the index.html of the app.
   const startUrl = process.env.ELECTRON_START_URL || url.format({
