@@ -19,7 +19,8 @@
     "postinstall": "install-app-deps"
   },
   "build": {
-    "appId": "com.electron.electron-with-create-react-app",
+    "appId": "com.electron.badah-editor",
+    "productName": "BADAH-Editor",
     "extends": null,
     "directories": {
       "buildResources": "public"
