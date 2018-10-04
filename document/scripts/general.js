@@ -112,28 +112,36 @@ const sendOnNavigate = href => {
 
 // custom header container creation
 const header = create('div', 'header')
-const leftHeader = create('div', 'header-box')
-const rightHeader = create('div', 'header-box')
-append(header, [leftHeader, rightHeader])
 
 // new features container creation
 const container = create('div', 'container')
 
+let rightHeader = null
+
 // add custom logo if needed
 if (typeof LOGO_PATH !== 'undefined') {
+  const leftHeader = create('div', 'header-box')
   const logo = create('img', 'logo')
   logo.src = LOGO_PATH
+  append(header, leftHeader)
   append(leftHeader, logo)
 }
 
 // add custom classification if needed
 if (typeof CLASSIFICATION !== 'undefined') {
+  rightHeader = create('div', 'header-box')
   const classification = create('p', 'classification', null, CLASSIFICATION)
+  append(header, rightHeader)
   append(rightHeader, classification)
 }
 
 // add custom label if needed
 if (typeof LABEL !== 'undefined') {
+  if (!rightHeader) {
+    rightHeader = create('div', 'header-box')
+    append(header, rightHeader)
+  }
+
   const label = create('h1', 'label', null, LABEL)
   label.title = LABEL
   append(rightHeader, label)
