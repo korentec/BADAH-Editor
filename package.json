@@ -20,7 +20,7 @@
   },
   "build": {
     "appId": "com.electron.badah-editor",
-    "productName": "BADAH-Editor",
+    "productName": "BADAH Editor",
     "extends": null,
     "directories": {
       "buildResources": "public"
