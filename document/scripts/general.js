@@ -101,12 +101,12 @@ const closeModalOnClickOutside = modal => {
 }
 
 // send link to BADAH-Viewer when navigate
-const sendOnNavigate = href => {
-  if (href.indexOf('index.html') !== -1) {
+const sendOnNavigate = (href = window.location.href) => {
+  const splitHref = href.split('/')
+  if (splitHref[splitHref.length - 1].indexOf('index.html') !== -1) {
     return
   }
 
-  const splitHref = href.split('/')
   const nav = `${splitHref[splitHref.length - 2]}/${splitHref[splitHref.length - 1]}`
   const data = JSON.stringify({ action: 'navigate', nav })
   window.top.postMessage(data, '*')
@@ -171,15 +171,21 @@ setTimeout(() => {
     })
   })
 
-  document.querySelectorAll('a').forEach(a => {
+  document.querySelectorAll('a.WebWorks_TOC_Link').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault()
       const { href } = e.target
       sendOnNavigate(href)
     })
   })
-}, 100)
+
+  document.querySelectorAll('.ww_behavior_prev, .ww_behavior_next').forEach(elem => {
+      elem.addEventListener('click', () => {
+      sendOnNavigate()
+    })
+  })
+}, 1000)
 
 window.addEventListener("hashchange", () => {
-  sendOnNavigate(window.location.href)
+  sendOnNavigate()
 })
