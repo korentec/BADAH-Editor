@@ -103,5 +103,4 @@
     localStorage.removeItem(historyKey)
   })
 
-
 })()

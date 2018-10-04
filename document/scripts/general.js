@@ -102,6 +102,10 @@ const closeModalOnClickOutside = modal => {
 
 // send link to BADAH-Viewer when navigate
 const sendOnNavigate = href => {
+  if (href.indexOf('index.html') !== -1) {
+    return
+  }
+
   const splitHref = href.split('/')
   const nav = `${splitHref[splitHref.length - 2]}/${splitHref[splitHref.length - 1]}`
   const data = JSON.stringify({ action: 'navigate', nav })
@@ -151,7 +155,9 @@ if (typeof LABEL !== 'undefined') {
 append(body, [header, container])
 
 // remove unnecessary original reverb features
-document.querySelectorAll('.ww_behavior_home').forEach(elem => elem.remove())
+document.querySelectorAll(
+  '.ww_behavior_home, .ww_skin_company_logo, .ww_skin_company_name'
+).forEach(elem => elem.remove())
 
 // change BADAH-Viewer url every document navigation
 setTimeout(() => {

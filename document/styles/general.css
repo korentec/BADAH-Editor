@@ -1,5 +1,7 @@
 /* **************** general css for BADAH document ***************** */
 
+/* new features css */
+
 .badah {
   margin: 0;
   padding: 0;
@@ -138,4 +140,10 @@
     color: white;
     margin: 8px 0px;
   }
+}
+
+/* exists reverb css */
+
+body {
+  padding-top: 40px;
 }
