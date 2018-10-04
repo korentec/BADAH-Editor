@@ -3,11 +3,11 @@
 /* BADAH-Viewer css */
 
 .viewer header {
-  background-color: rgb(126, 3, 3);
+  background-color: rgb(188, 148, 148);
 }
 
 .viewer h1 {
-  background-color: rgb(182, 57, 57);
+  background-color: rgb(165, 61, 61);
 }
 
 .viewer .tab.selected {
@@ -17,7 +17,7 @@
 /* custom document css */
 
 .badah.header {
-  background-color: rgb(218, 96, 96);
+  background-color: rgb(252, 230, 230);
 }
 
 .badah.action-btn {
@@ -27,10 +27,11 @@
 /* exist reverb css  */
 
 .ww_skin_toolbar_background_default {
-  background: rgb(218, 96, 96);
+  background: rgb(200, 92, 92);
 }
 
-.ww_skin_toolbar_background_selected, 
+.ww_skin_toolbar_background_selected,
+.ww_skin_toolbar_button_enabled:hover,
 .ww_skin_toolbar_background_selected:hover {
   background: rgb(77, 2, 2);
 }

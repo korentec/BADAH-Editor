@@ -11,13 +11,13 @@
 }
 
 .viewer .tab.selected {
-  background-color: rgb(110, 110, 110);
+  background-color: rgb(124, 124, 124);
 }
 
 /* custom document css */
 
 .badah.header {
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(241, 241, 241);
 }
 
 .badah.action-btn {
@@ -31,6 +31,7 @@
 }
 
 .ww_skin_toolbar_background_selected, 
+.ww_skin_toolbar_button_enabled:hover,
 .ww_skin_toolbar_background_selected:hover {
-  background: rgb(110, 110, 110);
+  background: rgb(124, 124, 124);
 }

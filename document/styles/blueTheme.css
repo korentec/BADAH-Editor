@@ -30,7 +30,8 @@
   background: rgb(95, 181, 217);
 }
  
-.ww_skin_toolbar_background_selected, 
+.ww_skin_toolbar_background_selected,
+.ww_skin_toolbar_button_enabled:hover,
 .ww_skin_toolbar_background_selected:hover {
   background: rgb(5, 22, 137);
 }

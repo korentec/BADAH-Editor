@@ -3,21 +3,21 @@
 /* BADAH-Viewer css */
 
 .viewer header {
-  background-color: rgb(29, 119, 29);
+  background-color: rgb(148, 194, 148);
 }
 
 .viewer h1 {
-  background-color: rgb(76, 190, 76);
+  background-color: rgb(74, 157, 134);
 }
 
 .viewer .tab.selected {
-  background-color: rgb(16, 92, 16);
+  background-color: rgb(32, 122, 32);
 }
 
 /* custom document css */
 
 .badah.header {
-  background-color: rgb(124, 189, 124);
+  background-color: rgb(239, 255, 233);
 }
 
 .badah.action-btn {
@@ -30,7 +30,8 @@
   background: rgb(124, 189, 124);
 }
 
-.ww_skin_toolbar_background_selected, 
+.ww_skin_toolbar_background_selected,
+.ww_skin_toolbar_button_enabled:hover,
 .ww_skin_toolbar_background_selected:hover {
-  background: rgb(16, 92, 16);
+  background: rgb(32, 122, 32);
 }
