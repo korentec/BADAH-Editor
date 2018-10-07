@@ -5,7 +5,7 @@ const replace = electron.remote.require('replace-in-file')
 const find = electron.remote.require('find')
 const { featuresOptions } = require('../config')
 const uniqid = require('uniqid')
-const { sendMessage } = require('./message')
+const { sendSuccessMessage, sendFailedMessage } = require('./message')
 const { isFileExist } = require('./validate')
 
 export const generate = async state => {
@@ -17,19 +17,19 @@ export const generate = async state => {
     cssFiles,
     display
   } = stateFormat(state)
-  
+
   try {
-    sendMessage('progress', { type: 'success', msg: 'generation start...' })
+    sendSuccessMessage('generation start...')
     await copyFolders(sources, outPath)
-    sendMessage('progress', { type: 'success', msg: 'sources folders files copied' })
+    sendSuccessMessage('sources folders files copied')
     await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
-    sendMessage('progress', { type: 'success', msg: 'new files files copied' })
+    sendSuccessMessage('new files files copied')
     await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)
-    sendMessage('progress', { type: 'success', msg: 'files have been adjusted as required' })
-    sendMessage('progress', { type: 'success', msg: 'generation completed!' })
+    sendSuccessMessage('files have been adjusted as required')
+    sendSuccessMessage('generation completed!')
   } catch (err) {
-    sendMessage('progress', { type: 'failed', msg: err.message || err })
-    sendMessage('progress', { type: 'failed', msg: 'generation stopped!' })
+    sendFailedMessage(err.message || err)
+    sendFailedMessage('generation stopped!')
     if (await isFileExist('folder', outPath)) {
       await fse.remove(outPath)
     }

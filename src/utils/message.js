@@ -10,3 +10,11 @@ export const receiveMessage = (event, cb) => {
 export const sendMessage = (event, msg) => {
   myEmitter.emit(event, JSON.stringify(msg))
 }
+
+export const sendSuccessMessage = msg => {
+  sendMessage('progress', { type: 'success', msg })
+}
+
+export const sendFailedMessage = msg => {
+  sendMessage('progress', { type: 'failed', msg })
+}
