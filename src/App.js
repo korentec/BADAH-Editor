@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import './App.css'
 import Main from './components/Main'
 import Footer from './components/Footer'
-import { message, Spin } from 'antd'
+import { message, Spin, Modal } from 'antd'
 import { generate } from './utils/generate'
 import { isFileExist } from './utils/validate'
+import { receiveMessage } from './utils/message'
+import Progress from './components/Progress'
 
 const electron = window.require('electron')
 const homedir = electron.remote.require('homedir')
@@ -34,8 +36,17 @@ class App extends Component {
           value: ''
         }
       },
-      outPath: `${homedir()}\\Desktop`
+      outPath: `${homedir()}\\Desktop`,
+      progress: []
     }
+  }
+
+  componentDidMount() {
+    receiveMessage('progress', msg => {
+      const { progress } = this.state
+      const newMsg = JSON.parse(msg)
+      this.setState({ progress: [ ...progress, newMsg ] })
+    })
   }
 
   async addSource(path) {
@@ -116,9 +127,13 @@ class App extends Component {
     this.setState({ display: newDisplay })
   }
 
+  closeProgressModal() {
+    this.setState({ progress: [] })
+  }
+
   async generate() {
     const { outPath, display: { logo } } = this.state
-    this.setState({ loading: true })
+    this.setState({ loading: true, progress: [] })
     try {
       if (!(await isFileExist('folder', outPath))) {
         throw 'out path is not a valid directory'
@@ -135,6 +150,7 @@ class App extends Component {
     } catch (error) {
       this.setState({ loading: false })
       message.error(error || 'generation failed')
+      // TBD: remove out path dir
     }
 
     this.setState({ loading: false })
@@ -145,15 +161,21 @@ class App extends Component {
       sources, 
       display,
       outPath,
-      loading
+      loading,
+      progress
     } = this.state
 
     return (
       <div className="wrapper">
         <header></header>
+        <Progress 
+          visible={!!progress.length}
+          close={this.closeProgressModal.bind(this)}
+          data={progress} 
+        />
         <main>
           <Spin 
-            tip="generate may take a few secondes ..." 
+            tip="generate may take a few secondes..."
             spinning={loading}
           >
             <Main 

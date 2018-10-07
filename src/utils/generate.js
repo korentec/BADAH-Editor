@@ -6,6 +6,7 @@ const replace = electron.remote.require('replace-in-file')
 const find = electron.remote.require('find')
 const { featuresOptions } = require('../config')
 const uniqid = require('uniqid')
+const { sendMessage } = require('./message')
 
 export const generate = async state => {
   const {
@@ -16,7 +17,7 @@ export const generate = async state => {
     cssFiles,
     display
   } = stateFormat(state)
-
+  
   await copyFolders(sources, outPath)
   await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
   await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)

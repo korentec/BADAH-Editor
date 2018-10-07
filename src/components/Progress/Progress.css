@@ -1,0 +1,25 @@
+
+.progress-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #e8e8e8;
+  width: 300px;
+  height: 300px;
+  padding: 10px;
+  z-index: 9999;
+}
+
+p.success {
+  color: green;
+}
+
+p.failed {
+  color: red;
+}

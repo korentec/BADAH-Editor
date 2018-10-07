@@ -68,7 +68,7 @@ class Source extends Component {
 }
 
 Source.propTypes = {
-  src: PropTypes.string.isRequired,
+  src: PropTypes.object.isRequired,
   isFirst: PropTypes.bool.isRequired,
   isLast: PropTypes.bool.isRequired,
   editSourceName: PropTypes.func.isRequired,
