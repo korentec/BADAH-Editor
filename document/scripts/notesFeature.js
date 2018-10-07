@@ -174,13 +174,13 @@ saveNoteBtn.addEventListener('click', () => {
 clearNotesBtn.addEventListener('click', () => {
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
   if (!notes.length) {
-    return alert('There no bookmarks to remove...')
+    return alert('There no notes to remove...')
   }
 
   const isOK = confirm('Are you sure you want to remove all notes?')
   if (isOK) {
     window.localStorage.setItem(notesKey, JSON.stringify([]))
-    renderBookmarksList(notesList)
+    renderNotesList(notesList)
   }
 })
 
