@@ -29,9 +29,25 @@
 .ww_skin_toolbar_background_default {
   background: rgb(95, 181, 217);
 }
+
+.ww_skin_toc_entry_selected:hover,
+.ww_skin_toolbar_button_enabled:hover,
+.ww_skin_toolbar_background_selected:hover,
+.ww_skin_toc_entry:hover{
+  background: rgb(60, 119, 185);
+}
  
 .ww_skin_toolbar_background_selected,
-.ww_skin_toolbar_button_enabled:hover,
-.ww_skin_toolbar_background_selected:hover {
-  background: rgb(5, 22, 137);
+.ww_skin_toc_entry_selected {
+  background: rgb(19, 40, 177);
+}
+
+/* exist reverb css - inner iframe  */
+
+.WebWorks_MiniTOC_Heading {
+  background: rgb(95, 181, 217) !important;
+}
+
+div.WebWorks_MiniTOC_Entry:hover {
+  background: rgb(60, 119, 185) !important;
 }

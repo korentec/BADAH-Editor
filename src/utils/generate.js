@@ -183,15 +183,7 @@ const THEME = '${(theme.enable && theme.value) || null}'`
     }).catch(() => { throw 'append new styles to index.html' })
   }
 
-  const pageScript = `window.addEventListener('load', () => {
-  document.querySelectorAll('.Cross_Reference > a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault()
-      const { href } = e.target
-      Message.Post(Page.window.parent, { action: 'last_link', href }, Page.window)
-    })
-  })
-})`
+  const pageScript = getPageScript(theme)
 
   const pageScripts = find.fileSync('page.js', outPath)
   for (let script of pageScripts) {
@@ -211,3 +203,23 @@ const getBadahDocuments = sources => {
     link: `./reverbs/${folderName}/index.html`
   })))
 }
+
+const getPageScript = theme => (
+  `window.addEventListener('load', () => {
+  document.querySelectorAll('.Cross_Reference > a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault()
+      const { href } = e.target
+      Message.Post(Page.window.parent, { action: 'last_link', href }, Page.window)
+    })
+  })
+})
+
+${(theme.enable && theme.value) && 
+`const head = document.querySelector('head')
+const link = document.createElement('link')
+link.setAttribute('rel', 'stylesheet')
+link.href = '../../../document/styles/${theme.value}Theme.css'
+head.appendChild(link)
+`}`
+)

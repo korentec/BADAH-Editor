@@ -30,8 +30,24 @@
   background: rgb(124, 189, 124);
 }
 
-.ww_skin_toolbar_background_selected,
+.ww_skin_toc_entry_selected:hover,
 .ww_skin_toolbar_button_enabled:hover,
-.ww_skin_toolbar_background_selected:hover {
+.ww_skin_toolbar_background_selected:hover,
+.ww_skin_toc_entry:hover{
+  background: rgb(70, 163, 70);
+}
+ 
+.ww_skin_toolbar_background_selected,
+.ww_skin_toc_entry_selected {
   background: rgb(32, 122, 32);
+}
+
+/* exist reverb css - inner iframe  */
+
+.WebWorks_MiniTOC_Heading {
+  background: rgb(124, 189, 124) !important;
+}
+
+div.WebWorks_MiniTOC_Entry:hover {
+  background: rgb(70, 163, 70) !important;
 }

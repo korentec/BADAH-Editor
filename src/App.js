@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Main from './components/Main'
 import Footer from './components/Footer'
-import { message, Spin, Modal } from 'antd'
+import { message, Spin } from 'antd'
 import { generate } from './utils/generate'
 import { isFileExist } from './utils/validate'
 import { receiveMessage } from './utils/message'
@@ -167,7 +167,8 @@ class App extends Component {
     return (
       <div className="wrapper">
         <header></header>
-        <Progress 
+        <Progress
+          loading={loading}
           visible={!!progress.length}
           close={this.closeProgressModal.bind(this)}
           data={progress} 
