@@ -19,16 +19,17 @@ export const generate = async state => {
   } = stateFormat(state)
   
   try {
+    sendMessage('progress', { type: 'success', msg: 'generation start...' })
     await copyFolders(sources, outPath)
     sendMessage('progress', { type: 'success', msg: 'sources folders files copied' })
     await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
     sendMessage('progress', { type: 'success', msg: 'new files files copied' })
     await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)
     sendMessage('progress', { type: 'success', msg: 'files have been adjusted as required' })
-    sendMessage('progress', { type: 'success', msg: 'generation successfully completed' })
+    sendMessage('progress', { type: 'success', msg: 'generation completed!' })
   } catch (err) {
     sendMessage('progress', { type: 'failed', msg: err.message || err })
-    sendMessage('progress', { type: 'failed', msg: 'generation failed' })
+    sendMessage('progress', { type: 'failed', msg: 'generation stopped!' })
     if (await isFileExist('folder', outPath)) {
       await fse.remove(outPath)
     }
