@@ -1,5 +1,4 @@
 const electron = window.require('electron')
-const fs = electron.remote.require('fs')
 const fse = electron.remote.require('fs-extra')
 const normalize = electron.remote.require('normalize-path')
 const replace = electron.remote.require('replace-in-file')
@@ -28,7 +27,7 @@ export const generate = async state => {
     sendMessage('progress', { type: 'success', msg: 'files have been adjusted as required' })
     sendMessage('progress', { type: 'success', msg: 'generation successfully completed' })
   } catch (err) {
-    sendMessage('progress', { type: 'failed', msg: err.msg || err })
+    sendMessage('progress', { type: 'failed', msg: err.message || err })
     sendMessage('progress', { type: 'failed', msg: 'generation failed' })
     if (await isFileExist('folder', outPath)) {
       await fse.remove(outPath)
@@ -102,20 +101,30 @@ const copyFolders = async (sources, outPath) => {
 
 const copyNewFiles = async (jsFiles, cssFiles, logo, outPath) => {
   for (let file of jsFiles) {
-    await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`)
+    await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`).catch(() => {
+      throw `document/scripts/${file} file not found`
+    })
   }
 
   for (let file of cssFiles) {
-    await fse.copy(`document/styles/${file}`, `${outPath}/document/styles/${file}`)
+    await fse.copy(`document/styles/${file}`, `${outPath}/document/styles/${file}`).catch(() => {
+      throw `document/styles/${file} file not found`
+    })
   }
 
-  await fse.copy('viewer', outPath)
+  await fse.copy('viewer', outPath).catch(() => {
+    throw 'viewer code copy'
+  })
 
-  await fse.copy('node_modules/@fortawesome/fontawesome-free', `${outPath}/document/styles/fa`)
+  await fse.copy('node_modules/@fortawesome/fontawesome-free', `${outPath}/document/styles/fa`).catch(() => {
+    throw 'font awesome copy'
+  })
 
   if (logo.enable && logo.value) {
     const ext = logo.value.split('.').pop()
-    await fse.copy(logo.value, `${outPath}/document/assets/logo.${ext}`)
+    await fse.copy(logo.value, `${outPath}/document/assets/logo.${ext}`).catch(() => {
+      throw 'logo copy'
+    })
   }
 }
 
@@ -141,8 +150,13 @@ const BADAH_VIEWER_PATH = '../../index.html'`
 const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}
 const THEME = '${(theme.enable && theme.value) || null}'`
   
-  await fs.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData)
-  await fs.writeFile(`${outPath}/viewer/env.js`, viewerEnvData)
+  await fse.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData).catch(() => {
+    throw 'write document env.js file'
+  })
+
+  await fse.writeFile(`${outPath}/viewer/env.js`, viewerEnvData).catch(() => {
+    throw 'write viewer env.js file'
+  })
 
   let newScripts = ``
   jsFiles.forEach(file => {
@@ -159,13 +173,13 @@ const THEME = '${(theme.enable && theme.value) || null}'`
       files: src.newEntryPath,
       from: '</body>',
       to: `${newScripts}</body>`
-    })
+    }).catch(() => { throw 'append new script to index.html' })
 
     await replace({
       files: src.newEntryPath,
       from: '--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]--></head>',
       to: `--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]-->${newStyles}</head>`
-    })
+    }).catch(() => { throw 'append new styles to index.html' })
   }
 
   const pageScript = `window.addEventListener('load', () => {
@@ -180,7 +194,9 @@ const THEME = '${(theme.enable && theme.value) || null}'`
 
   const pageScripts = find.fileSync('page.js', outPath)
   for (let script of pageScripts) {
-    await fs.appendFile(script, pageScript)
+    await fse.appendFile(script, pageScript).catch(() => {
+      throw 'append custom script to page.js script'
+    })
   }
 }
 

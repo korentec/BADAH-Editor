@@ -1,10 +1,10 @@
 const electron = window.require('electron')
-const fs = electron.remote.require('fs')
+const fse = electron.remote.require('fs-extra')
 
-export const isFileExist = (type, path) => {
+export const isFileExist = async (type, path) => {
   let res = false  
   try {
-    const stats = fs.statSync(path)
+    const stats = await fse.stat(path)
     if (stats) {
       switch (type) {
         case 'folder':
@@ -31,5 +31,5 @@ export const isFileExist = (type, path) => {
   }
  
 
-  return Promise.resolve(res)
+  return res
 }
