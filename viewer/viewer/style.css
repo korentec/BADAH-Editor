@@ -39,6 +39,10 @@ h1 {
   font-size: 14px;
 }
 
+.tab:hover {
+  background-color: rgb(196, 196, 196);
+}
+
 .tab.selected {
   background-color: black;
   color: white;

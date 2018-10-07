@@ -10,6 +10,10 @@
   background-color: rgb(38, 146, 157);
 }
 
+.viewer .tab:hover {
+  background-color: rgb(60, 119, 185);
+}
+
 .viewer .tab.selected {
   background-color: rgb(5, 22, 137);
 }
