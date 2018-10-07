@@ -149,8 +149,7 @@ class App extends Component {
       message.success('generation succeeded')
     } catch (error) {
       this.setState({ loading: false })
-      message.error(error || 'generation failed')
-      // TBD: remove out path dir
+      message.error(error)
     }
 
     this.setState({ loading: false })

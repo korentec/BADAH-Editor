@@ -16,6 +16,11 @@
   z-index: 9999;
 }
 
+.messages {
+  overflow-y: auto;
+  text-align: center;
+}
+
 p.success {
   color: green;
 }

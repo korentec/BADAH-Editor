@@ -7,6 +7,7 @@ const find = electron.remote.require('find')
 const { featuresOptions } = require('../config')
 const uniqid = require('uniqid')
 const { sendMessage } = require('./message')
+const { isFileExist } = require('./validate')
 
 export const generate = async state => {
   const {
@@ -18,9 +19,23 @@ export const generate = async state => {
     display
   } = stateFormat(state)
   
-  await copyFolders(sources, outPath)
-  await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
-  await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)
+  try {
+    await copyFolders(sources, outPath)
+    sendMessage('progress', { type: 'success', msg: 'sources folders files copied' })
+    await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
+    sendMessage('progress', { type: 'success', msg: 'new files files copied' })
+    await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)
+    sendMessage('progress', { type: 'success', msg: 'files have been adjusted as required' })
+    sendMessage('progress', { type: 'success', msg: 'generation successfully completed' })
+  } catch (err) {
+    sendMessage('progress', { type: 'failed', msg: err.msg || err })
+    sendMessage('progress', { type: 'failed', msg: 'generation failed' })
+    if (await isFileExist('folder', outPath)) {
+      await fse.remove(outPath)
+    }
+
+    throw 'generation failed'
+  }
 }
 
 const stateFormat = state => {
@@ -78,19 +93,21 @@ const stateFormat = state => {
 }
 
 const copyFolders = async (sources, outPath) => {
-  sources.forEach(async src => {
-    await fse.copy(src.path, `${outPath}/reverbs/${src.folderName}`)
-  })
+  for (let src of sources) {
+    await fse.copy(src.path, `${outPath}/reverbs/${src.folderName}`).catch(() => {
+      throw `source not exist - ${src.path}`
+    })
+  }
 }
 
 const copyNewFiles = async (jsFiles, cssFiles, logo, outPath) => {
-  jsFiles.forEach(async file => {
+  for (let file of jsFiles) {
     await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`)
-  })
+  }
 
-  cssFiles.forEach(async file => {
+  for (let file of cssFiles) {
     await fse.copy(`document/styles/${file}`, `${outPath}/document/styles/${file}`)
-  })
+  }
 
   await fse.copy('viewer', outPath)
 
@@ -137,7 +154,7 @@ const THEME = '${(theme.enable && theme.value) || null}'`
     newStyles += `<link rel="stylesheet" href="../../document/styles/${file}">`
   })
 
-  sources.forEach(async src => {
+  for (let src of sources) {
     await replace({
       files: src.newEntryPath,
       from: '</body>',
@@ -149,7 +166,7 @@ const THEME = '${(theme.enable && theme.value) || null}'`
       from: '--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]--></head>',
       to: `--></style><!--[if IE 9]><link rel="StyleSheet" href="css/skin_IE9.css" type="text/css" media="all"><![endif]-->${newStyles}</head>`
     })
-  })
+  }
 
   const pageScript = `window.addEventListener('load', () => {
   document.querySelectorAll('.Cross_Reference > a').forEach(link => {
@@ -161,11 +178,10 @@ const THEME = '${(theme.enable && theme.value) || null}'`
   })
 })`
 
-  find.file('page.js', outPath, files => {
-    files.forEach(async file => {
-      await fs.appendFile(file, pageScript);
-    })
-  })
+  const pageScripts = find.fileSync('page.js', outPath)
+  for (let script of pageScripts) {
+    await fs.appendFile(script, pageScript)
+  }
 }
 
 const orderFeatures = features => {

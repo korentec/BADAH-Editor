@@ -10,11 +10,13 @@ class Progress extends Component {
     return (
       <div>
         {visible && <div className="progress-modal">
-          {data.map(item => (
-            item.type === 'success' ?
-              <p className="failed">{item.msg}</p> : 
-              <p className="success">{item.msg}</p>
-          ))}
+          <div className="messages">
+            {data.map((item, i) => (
+              item.type === 'success' ?
+                <p key={i} className="success">success: {item.msg}</p> : 
+                <p key={i} className="failed">failed: {item.msg}</p>
+            ))}
+          </div>
           <Button onClick={close}>ok</Button>
         </div>}
       </div>
