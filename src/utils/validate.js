@@ -1,7 +1,7 @@
 const electron = window.require('electron')
 const fse = electron.remote.require('fs-extra')
 
-export const isFileExist = async (type, path) => {
+export const isFileExist = async function checkIfFileExistByType(type, path) {
   let res = false  
   try {
     const stats = await fse.stat(path)

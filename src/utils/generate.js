@@ -8,7 +8,7 @@ const uniqid = require('uniqid')
 const { sendSuccessMessage, sendFailedMessage } = require('./message')
 const { isFileExist } = require('./validate')
 
-export const generate = async state => {
+export const generate = async function startGenerationProcess(state) {
   const {
     id,
     sources,
@@ -16,15 +16,15 @@ export const generate = async state => {
     jsFiles,
     cssFiles,
     display
-  } = stateFormat(state)
+  } = formatState(state)
 
   try {
     sendSuccessMessage('generation start...')
-    await copyFolders(sources, outPath)
-    sendSuccessMessage('sources folders files copied')
+    await copySources(sources, outPath)
+    sendSuccessMessage('sources folders copied')
     await copyNewFiles(jsFiles, cssFiles, display.logo, outPath)
     sendSuccessMessage('new files files copied')
-    await adjustingNewFiles(id, sources, display, jsFiles, cssFiles, outPath)
+    await adjusting(id, sources, display, jsFiles, cssFiles, outPath)
     sendSuccessMessage('files have been adjusted as required')
     sendSuccessMessage('generation completed!')
   } catch (err) {
@@ -38,7 +38,7 @@ export const generate = async state => {
   }
 }
 
-const stateFormat = state => {
+const formatState = function formatStateForGeneration(state) {
   const {
     sources,
     outPath,
@@ -92,44 +92,49 @@ const stateFormat = state => {
   }
 }
 
-const copyFolders = async (sources, outPath) => {
+const copySources = async function copySourcesFolders(sources, outPath) {
   for (let src of sources) {
-    await fse.copy(src.path, `${outPath}/reverbs/${src.folderName}`).catch(() => {
-      throw `source not exist - ${src.path}`
-    })
+    await fse.copy(src.path, `${outPath}/reverbs/${src.folderName}`)
+      .catch(() => { throw `source not exist - ${src.path}` })
   }
 }
 
-const copyNewFiles = async (jsFiles, cssFiles, logo, outPath) => {
+const copyNewFiles = async function copyCustomDisplayNewFiles(
+  jsFiles, 
+  cssFiles, 
+  logo, 
+  outPath
+) {
   for (let file of jsFiles) {
-    await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`).catch(() => {
-      throw `document/scripts/${file} file not found`
-    })
+    await fse.copy(`document/scripts/${file}`, `${outPath}/document/scripts/${file}`)
+      .catch(() => { throw `document/scripts/${file} file not found` })
   }
 
   for (let file of cssFiles) {
-    await fse.copy(`document/styles/${file}`, `${outPath}/document/styles/${file}`).catch(() => {
-      throw `document/styles/${file} file not found`
-    })
+    await fse.copy(`document/styles/${file}`, `${outPath}/document/styles/${file}`)
+      .catch(() => { throw `document/styles/${file} file not found` })
   }
 
-  await fse.copy('viewer', outPath).catch(() => {
-    throw 'viewer code copy'
-  })
+  await fse.copy('viewer', outPath).catch(() => { throw 'viewer code copy' })
 
-  await fse.copy('node_modules/@fortawesome/fontawesome-free', `${outPath}/document/styles/fa`).catch(() => {
-    throw 'font awesome copy'
-  })
+  await fse.copy('node_modules/@fortawesome/fontawesome-free', `${outPath}/document/styles/fa`)
+    .catch(() => { throw 'font awesome copy' })
 
   if (logo.enable && logo.value) {
     const ext = logo.value.split('.').pop()
-    await fse.copy(logo.value, `${outPath}/document/assets/logo.${ext}`).catch(() => {
-      throw 'logo copy'
-    })
+    await fse.copy(logo.value, `${outPath}/document/assets/logo.${ext}`)
+      .catch(() => { throw 'logo copy' })
   }
 }
 
-const adjustingNewFiles = async (id, sources, display, jsFiles, cssFiles, outPath) => {
+const adjusting = async function adjustingNewFiles(
+  id, 
+  sources, 
+  display, 
+  jsFiles, 
+  cssFiles, 
+  outPath
+) {
   const { label, classification, logo, theme } = display
   let documentEnvData = `const BADAH_VIEWER_ID = '${id}'
 const BADAH_VIEWER_PATH = '../../index.html'`
@@ -151,13 +156,11 @@ const BADAH_VIEWER_PATH = '../../index.html'`
 const BADAH_DOCUMENTS = ${getBadahDocuments(sources)}
 const THEME = '${(theme.enable && theme.value) || null}'`
   
-  await fse.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData).catch(() => {
-    throw 'write document env.js file'
-  })
+  await fse.writeFile(`${outPath}/document/scripts/env.js`, documentEnvData)
+    .catch(() => { throw 'write document env.js file' })
 
-  await fse.writeFile(`${outPath}/viewer/env.js`, viewerEnvData).catch(() => {
-    throw 'write viewer env.js file'
-  })
+  await fse.writeFile(`${outPath}/viewer/env.js`, viewerEnvData)
+    .catch(() => { throw 'write viewer env.js file' })
 
   let newScripts = ``
   jsFiles.forEach(file => {
@@ -187,25 +190,24 @@ const THEME = '${(theme.enable && theme.value) || null}'`
 
   const pageScripts = find.fileSync('page.js', outPath)
   for (let script of pageScripts) {
-    await fse.appendFile(script, pageScript).catch(() => {
-      throw 'append custom script to page.js script'
-    })
+    await fse.appendFile(script, pageScript).catch(() => { throw 'append custom script to page.js script' })
   }
 }
 
-const orderFeatures = features => {
+const orderFeatures = function orderFeaturesDisplayPosition(features) {
   return featuresOptions.filter(f => features.indexOf(f) !== -1)
 }
 
-const getBadahDocuments = sources => {
+const getBadahDocuments = function getBadahDocumentsKey(sources) {
   return JSON.stringify(sources.map(({ name, folderName }) => ({
     label: name || folderName,
     link: `./reverbs/${folderName}/index.html`
   })))
 }
 
-const getPageScript = theme => (
-  `window.addEventListener('load', () => {
+const getPageScript = function getInnerIframePageScript(theme) {
+  return (
+      `window.addEventListener('load', () => {
   document.querySelectorAll('.Cross_Reference > a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault()
@@ -215,11 +217,12 @@ const getPageScript = theme => (
   })
 })
 
-${(theme.enable && theme.value) && 
+    ${(theme.enable && theme.value) && 
 `const head = document.querySelector('head')
 const link = document.createElement('link')
 link.setAttribute('rel', 'stylesheet')
 link.href = '../../../document/styles/${theme.value}Theme.css'
 head.appendChild(link)
 `}`
-)
+  )
+}

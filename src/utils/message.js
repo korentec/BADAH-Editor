@@ -3,18 +3,18 @@ const EventEmitter = electron.remote.require('events')
 
 const myEmitter = new EventEmitter()
 
-export const receiveMessage = (event, cb) => {
+export const receiveMessage = function onReceiveEventMessage(event, cb) {
   myEmitter.on(event, cb)
 }
 
-export const sendMessage = (event, msg) => {
+export const sendMessage = function onSendEventMessage(event, msg) {
   myEmitter.emit(event, JSON.stringify(msg))
 }
 
-export const sendSuccessMessage = msg => {
+export const sendSuccessMessage = function sendSuccessEventMessage(msg) {
   sendMessage('progress', { type: 'success', msg })
 }
 
-export const sendFailedMessage = msg => {
+export const sendFailedMessage = function sendFailedEventMessage(msg) {
   sendMessage('progress', { type: 'failed', msg })
 }
