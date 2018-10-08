@@ -51,11 +51,11 @@ const openNoteModal = function openSingleNoteModal(link) {
 const openNotesModal = function openAllNotesModal() {
   closeModals()
   setStyle(notesModal, { display: 'block' })
-  renderList(notesList)
+  renderNotes(notesList)
 }
 
 // render notes list
-const renderList = function renderNotesList(notesList) {
+const renderNotes = function renderNotesList(notesList) {
   while (notesList.firstChild) {
     notesList.removeChild(notesList.firstChild)
   }
@@ -81,7 +81,7 @@ const renderList = function renderNotesList(notesList) {
     deleteItem.addEventListener('click', () => {
       const newNotes = notes.filter(n => n.link !== link)
       localStorage.setItem(notesKey, JSON.stringify(newNotes))
-      renderList(notesList)
+      renderNotes(notesList)
     })
 
     append(item, [noteLink, deleteItem])
@@ -176,7 +176,7 @@ clearNotesBtn.addEventListener('click', () => {
   const isOK = confirm('Are you sure you want to remove all notes?')
   if (isOK) {
     window.localStorage.setItem(notesKey, JSON.stringify([]))
-    renderList(notesList)
+    renderNotes(notesList)
   }
 })
 

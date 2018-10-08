@@ -9,7 +9,7 @@ const bookmarksKey = `bookmarks_${BADAH_VIEWER_ID}`
 /* ----------------------------- utils ----------------------------- */
 
 // render bookmarks list
-const renderList = function renderBookmarksList(bookmarksList) {
+const renderBookmarks = function renderBookmarksList(bookmarksList) {
   while (bookmarksList.firstChild) {
     bookmarksList.removeChild(bookmarksList.firstChild);
   }
@@ -36,7 +36,7 @@ const renderList = function renderBookmarksList(bookmarksList) {
     deleteItem.addEventListener('click', () => {
       const newBookmarks = bookmarks.filter(b => b.link !== link)
       localStorage.setItem(bookmarksKey, JSON.stringify(newBookmarks))
-      renderList(bookmarksList)
+      renderBookmarks(bookmarksList)
     })
 
     append(item, [bookmarkLink, deleteItem])
@@ -61,7 +61,7 @@ const bookmarkThisPage = function addCurrentPageToBookmarks() {
     alert('This page already in bookmarks')
   }
 
-  renderList(bookmarksList)
+  renderBookmarks(bookmarksList)
 }
 
 /* ----------------------- DOM manipulation ------------------------ */
@@ -109,7 +109,7 @@ bookmarksBtn.addEventListener('click', e => {
   e.stopPropagation()
   closeModals()
   setStyle(bookmarksModal, { display: 'block' })
-  renderList(bookmarksList)
+  renderBookmarks(bookmarksList)
 })
 
 // clear bookmarks button on click event
@@ -122,7 +122,7 @@ clearBookmarksBtn.addEventListener('click', () => {
   const isOK = confirm('Are you sure you want to remove all bookmarks?')
   if (isOK) {
     window.localStorage.setItem(bookmarksKey, JSON.stringify([]))
-    renderList(bookmarksList)
+    renderBookmarks(bookmarksList)
   }
 })
 
