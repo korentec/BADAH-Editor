@@ -24,13 +24,13 @@ class Sources extends Component {
     return (
       <section>
         <div className="actions">
-          <Tooltip
-            className="action"
-            title="remove all folders"
-          >
-            <Popconfirm
+        <Popconfirm
               title="Are you sure?"
               onConfirm={removeAllSources}
+            >
+            <Tooltip
+              className="action"
+              title="remove all folders"
             >
               <Button 
                 type="primary"
@@ -39,8 +39,8 @@ class Sources extends Component {
                 icon="delete"
                 disabled={disabledRemoveAll}
               />
-            </Popconfirm>
-          </Tooltip>
+            </Tooltip>
+          </Popconfirm>
           <Upload 
             directory
             beforeUpload={this.onSelectFolder.bind(this)}
