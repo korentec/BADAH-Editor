@@ -130,8 +130,12 @@ class Display extends Component {
           </span>
         </div>
         <div className="box">
+          <span className="label">
+            Custom features:
+          </span>
           <CheckboxGroup
-            options={featuresOptions} 
+            options={featuresOptions}
+            className="features"
             onChange={values => { onInputChanged('features', values) }} 
           />
         </div>

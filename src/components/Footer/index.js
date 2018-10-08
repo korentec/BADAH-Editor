@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './Footer.css'
 import { Tooltip, Button } from 'antd'
+import { version } from '../../../package.json'
 
 class Footer extends Component {
   render() {
@@ -9,7 +10,7 @@ class Footer extends Component {
 
     return (
       <div className="container">
-        <p>&copy; Developed by Korentec Technologies for IAI ltd</p>
+        <p>&copy; Developed by Korentec Technologies for IAI ltd | version: {version}</p>
         <Tooltip title="generate project">
           <Button 
             type="primary"

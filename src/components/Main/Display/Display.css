@@ -27,3 +27,9 @@ section {
   width: 600px;
   display: flex;
 }
+
+.features {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+}
