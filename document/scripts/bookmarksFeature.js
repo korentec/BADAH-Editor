@@ -9,7 +9,7 @@ const bookmarksKey = `bookmarks_${BADAH_VIEWER_ID}`
 /* ----------------------------- utils ----------------------------- */
 
 // render bookmarks list
-const renderBookmarksList = bookmarksList => {
+const renderList = function renderBookmarksList(bookmarksList) {
   while (bookmarksList.firstChild) {
     bookmarksList.removeChild(bookmarksList.firstChild);
   }
@@ -36,7 +36,7 @@ const renderBookmarksList = bookmarksList => {
     deleteItem.addEventListener('click', () => {
       const newBookmarks = bookmarks.filter(b => b.link !== link)
       localStorage.setItem(bookmarksKey, JSON.stringify(newBookmarks))
-      renderBookmarksList(bookmarksList)
+      renderList(bookmarksList)
     })
 
     append(item, [bookmarkLink, deleteItem])
@@ -44,8 +44,8 @@ const renderBookmarksList = bookmarksList => {
   })
 }
 
-// add current page to bookmark
-const bookmarkThisPage = () => {
+// add current page to bookmarks
+const bookmarkThisPage = function addCurrentPageToBookmarks() {
   if (!location.hash) {
     alert('Can not add home page to bookmarks')
     return
@@ -61,7 +61,7 @@ const bookmarkThisPage = () => {
     alert('This page already in bookmarks')
   }
 
-  renderBookmarksList(bookmarksList)
+  renderList(bookmarksList)
 }
 
 /* ----------------------- DOM manipulation ------------------------ */
@@ -107,9 +107,9 @@ modalBookmarkBtn.addEventListener('click', e => {
 // bookmarks button on click event
 bookmarksBtn.addEventListener('click', e => {
   e.stopPropagation()
-  closeAllModals()
+  closeModals()
   setStyle(bookmarksModal, { display: 'block' })
-  renderBookmarksList(bookmarksList)
+  renderList(bookmarksList)
 })
 
 // clear bookmarks button on click event
@@ -122,12 +122,12 @@ clearBookmarksBtn.addEventListener('click', () => {
   const isOK = confirm('Are you sure you want to remove all bookmarks?')
   if (isOK) {
     window.localStorage.setItem(bookmarksKey, JSON.stringify([]))
-    renderBookmarksList(bookmarksList)
+    renderList(bookmarksList)
   }
 })
 
 // close bookmarks modal on click outside
-closeModalOnClickOutside(bookmarksModal)
+closeOnClickOut(bookmarksModal)
 
 // add new elements to DOM
 append(container, [bookmarkBtn, bookmarksBtn])

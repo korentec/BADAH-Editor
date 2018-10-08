@@ -10,7 +10,7 @@ let currentNoteLink = ''
 /* ----------------------------- utils ----------------------------- */
 
 // print note on textarea
-const renderNote = noteInput => {
+const renderNote = function renderRelevantNote(noteInput) {
   const link = currentNoteLink
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
   const note = notes.find(n => n.link === link)
@@ -18,7 +18,7 @@ const renderNote = noteInput => {
 }
 
 // save note to local storage
-const saveNote = noteInput => {
+const saveNote = function saveNoteToLocalStorage(noteInput) {
   const link = currentNoteLink
   const label = getPageLabel()
   const text = noteInput.value
@@ -40,24 +40,24 @@ const saveNote = noteInput => {
 }
 
 // open note modal
-const openNoteModal = link => {
-  closeAllModals()      
+const openNoteModal = function openSingleNoteModal(link) {
+  closeModals()      
   setStyle(noteModal, { display: 'block' })
   currentNoteLink = link
   renderNote(noteInput)
 }
 
 // open notes modal
-const openNotesModal = () => {
-  closeAllModals()
+const openNotesModal = function openAllNotesModal() {
+  closeModals()
   setStyle(notesModal, { display: 'block' })
-  renderNotesList(notesList)
+  renderList(notesList)
 }
 
 // render notes list
-const renderNotesList = notesList => {
+const renderList = function renderNotesList(notesList) {
   while (notesList.firstChild) {
-    notesList.removeChild(notesList.firstChild);
+    notesList.removeChild(notesList.firstChild)
   }
 
   const notes = JSON.parse(localStorage.getItem(notesKey)) || []
@@ -81,7 +81,7 @@ const renderNotesList = notesList => {
     deleteItem.addEventListener('click', () => {
       const newNotes = notes.filter(n => n.link !== link)
       localStorage.setItem(notesKey, JSON.stringify(newNotes))
-      renderNotesList(notesList)
+      renderList(notesList)
     })
 
     append(item, [noteLink, deleteItem])
@@ -161,14 +161,10 @@ modalNotesBtn.addEventListener('click', e => {
 })
 
  // note discard button on click event
-discardNoteBtn.addEventListener('click', () => {
-  renderNote(noteInput)
-})
+discardNoteBtn.addEventListener('click', () => { renderNote(noteInput) })
 
 // note save button on click event
-saveNoteBtn.addEventListener('click', () => {
-  saveNote(noteInput)
-})
+saveNoteBtn.addEventListener('click', () => { saveNote(noteInput) })
 
 // clear notes button on click event
 clearNotesBtn.addEventListener('click', () => {
@@ -180,15 +176,15 @@ clearNotesBtn.addEventListener('click', () => {
   const isOK = confirm('Are you sure you want to remove all notes?')
   if (isOK) {
     window.localStorage.setItem(notesKey, JSON.stringify([]))
-    renderNotesList(notesList)
+    renderList(notesList)
   }
 })
 
 // close note modal on click outside
-closeModalOnClickOutside(noteModal)
+closeOnClickOut(noteModal)
 
 // close notes modal on click outside
-closeModalOnClickOutside(notesModal)
+closeOnClickOut(notesModal)
 
 // add new elements to DOM
 append(container, [noteBtn, notesBtn])

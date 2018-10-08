@@ -39,7 +39,7 @@ window.addEventListener('message', e => {
   window.top.postMessage(data, '*')
 
   // navigate to link via BADAH-Viewer
-  sendOnNavigate(href)
+  onNavigate(href)
 }, false)
 
 // get app url from BADAH-Viewer

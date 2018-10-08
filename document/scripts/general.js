@@ -12,7 +12,7 @@ const iframe = document.querySelector('#page_iframe')
 /* ----------------------------- utils ----------------------------- */
 
 // add class list to element
-const setClass = (elem, classList) => {
+const setClass = function setElemClass(elem, classList) {
   // set class 'badah' for every new feature element
   elem.classList.add('badah')
   if ((Array.isArray(classList))) {
@@ -25,19 +25,19 @@ const setClass = (elem, classList) => {
 }
 
 // set element inline style
-const setStyle = (elem, style) => {
+const setStyle = function setElemClass(elem, style) {
   for (let prop in style) {
     elem.style[prop] = style[prop]
   }
 }
 
 // create new element with style and text
-const create = (
+const create = function createElem(
   tag = 'div', 
   classList = [],
   style = {}, 
   text = ''
-) => {
+) {
   const elem = document.createElement(tag)
   setClass(elem, classList)
   setStyle(elem, style)
@@ -45,17 +45,19 @@ const create = (
   return elem
 }
 
-const append = (parent, nodes) => {
+const append = function appendNodes(parent, nodes) {
   (Array.isArray(nodes) ? nodes : [nodes]).forEach(
     node => { parent.appendChild(node) }
   )
 }
 
 // formatting path
-const clearHref = url => url.split('/').pop().replace('#', '')
+const clearHref = function clearHrefForLabel(url)  {
+  return url.split('/').pop().replace('#', '')
+}
 
 // get page label
-const getPageLabel = () => {
+const getPageLabel = function getPageLabelFromNav() {
   const currentListItem = document.querySelector('.ww_skin_toc_entry_selected')
   if (currentListItem) {
     const currentLink = currentListItem.querySelector('a')
@@ -68,14 +70,14 @@ const getPageLabel = () => {
 }
 
 // close all modals
-const closeAllModals = () => {
+const closeModals = function closeAllModals() {
   document.querySelectorAll('.badah.modal').forEach(modal => {
     setStyle(modal, { display: 'none'})
   })
 }
 
 // close modal on click outside
-const closeModalOnClickOutside = modal => {
+const closeOnClickOut = function closeModalOnClickOutside(modal) {
   window.document.addEventListener('click', () => {
     setStyle(modal, { display: 'none' })
   })
@@ -87,21 +89,13 @@ const closeModalOnClickOutside = modal => {
     }
   })
 
-  iframe.addEventListener('mouseover', () => {
-    iframeMouseOver = true
-  })
-
-  iframe.addEventListener('mouseout', () => {
-    iframeMouseOver = false
-  })
-
-  modal.addEventListener('click', e => {
-    e.stopPropagation()
-  })
+  iframe.addEventListener('mouseover', () => { iframeMouseOver = true })
+  iframe.addEventListener('mouseout', () => { iframeMouseOver = false })
+  modal.addEventListener('click', e => { e.stopPropagation() })
 }
 
 // send link to BADAH-Viewer when navigate
-const sendOnNavigate = (href = window.location.href) => {
+const onNavigate = function sendViewerOnNavigate(href = window.location.href) {
   const splitHref = href.split('/')
   if (splitHref[splitHref.length - 1].indexOf('index.html') !== -1) {
     return
@@ -155,9 +149,8 @@ if (typeof LABEL !== 'undefined') {
 append(body, [header, container])
 
 // remove unnecessary original reverb features
-document.querySelectorAll(
-  '.ww_behavior_home, .ww_skin_company_logo, .ww_skin_company_name'
-).forEach(elem => elem.remove())
+document.querySelectorAll('.ww_behavior_home, .ww_skin_company_logo, .ww_skin_company_name')
+  .forEach(elem => elem.remove())
 
 // change BADAH-Viewer url every document navigation
 setTimeout(() => {
@@ -166,7 +159,7 @@ setTimeout(() => {
       const a = elem.querySelector('a')
       if (a) {
         const { href } = a
-        sendOnNavigate(href)
+        onNavigate(href)
       }
     })
   })
@@ -175,17 +168,14 @@ setTimeout(() => {
     a.addEventListener('click', e => {
       e.preventDefault()
       const { href } = e.target
-      sendOnNavigate(href)
+      onNavigate(href)
     })
   })
 
   document.querySelectorAll('.ww_behavior_prev, .ww_behavior_next').forEach(elem => {
-      elem.addEventListener('click', () => {
-      sendOnNavigate()
-    })
+    elem.addEventListener('click', () => { onNavigate() })
   })
 }, 1000)
 
-window.addEventListener("hashchange", () => {
-  sendOnNavigate()
-})
+// change BADAH-Viewer url every hash change
+window.addEventListener("hashchange", () => { onNavigate() })
